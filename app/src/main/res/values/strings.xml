@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">ScreenInteractionTest</string>
     <string name="content_description_splash">Screen Interaction</string>
-    <string name="title_main">Medarbetare</string>
+    <string name="title_contact_list">Medarbetare</string>
+    <string name="list_contacts_empty">No contacts found.</string>
+    <string name="database_name">SI_DB</string>
+    <string name="error_database_operation_on_main_thread">Attempted to perform a database operation on the main thread!</string>
+    <string name="contact_favorite">Favorite</string>
 </resources>

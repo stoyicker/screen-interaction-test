@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actionbar_elevation">4dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_start_margin">-40dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_end_margin">16dp</dimen>
+    <dimen name="contact_card_height">100dp</dimen>
+    <dimen name="contact_card_view_bottom_margin">8dp</dimen>
+    <dimen name="contact_card_elevation">4dp</dimen>
+    <dimen name="contact_card_corner_radius">4dp</dimen>
+    <dimen name="card_padding">4dp</dimen>
     <item name="toolbar_title_shadow_dx" format="float" type="dimen">2</item>
     <item name="toolbar_title_shadow_dy" format="float" type="dimen">2</item>
     <item name="toolbar_title_shadow_radius" format="float" type="dimen">2</item>

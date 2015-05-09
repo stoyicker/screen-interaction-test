@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 import com.screeninteractiontest.jorge.R;
+import com.screeninteractiontest.jorge.io.db.SQLiteDAO;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedActivity;
 
 import java.util.concurrent.Executors;
@@ -24,6 +25,14 @@ public final class SplashActivity extends IcedActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        final Context context = getApplicationContext();
+
+        initDatabase(context);
+    }
+
+    private void initDatabase(Context context) {
+        SQLiteDAO.setup(context);
     }
 
     @Override
@@ -64,7 +73,7 @@ public final class SplashActivity extends IcedActivity {
     }
 
     private void start(final Context context) {
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, ContactListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
         //noinspection unchecked

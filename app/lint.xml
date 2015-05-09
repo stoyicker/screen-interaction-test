@@ -3,7 +3,4 @@
     <issue id="IconLocation">
         <ignore path="src/main/res/drawable/splash.png"/>
     </issue>
-    <issue id="SelectableText">
-        <ignore path="src/main/res/layout/include_toolbar.xml"/>
-    </issue>
 </lint>

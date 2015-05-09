@@ -10,7 +10,7 @@ import com.screeninteractiontest.jorge.R;
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public class CustomTitleToolbar extends Toolbar {
+public final class CustomTitleToolbar extends Toolbar {
 
     private TextView mTitleView;
 

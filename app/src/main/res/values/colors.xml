@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="toolbar_title">@android:color/white</color>
-    <color name="toolbar_title_shadow">@android:color/darker_gray</color>
+    <color name="theme_toolbar_title">@android:color/white</color>
+    <color name="theme_toolbar_title_shadow">@android:color/holo_blue_bright</color>
     <color name="theme_transparent">@android:color/transparent</color>
-    <color name="theme_actionbar_start">#009688</color>
-    <color name="theme_actionbar_end">@android:color/darker_gray</color>
+    <color name="theme_actionbar_background">@android:color/black</color>
+    <color name="theme_text_primary">@android:color/white</color>
+    <color name="theme_primary">@android:color/black</color>
+    <color name="theme_contact_card_background_unselected">@android:color/white</color>
+    <color name="theme_app_background">@android:color/black</color>
 </resources>

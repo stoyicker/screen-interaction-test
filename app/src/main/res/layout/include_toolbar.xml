@@ -10,5 +10,6 @@
         android:id="@+id/toolbar_title"
         style="@style/ToolbarTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:textIsSelectable="true"/>
 </com.screeninteractiontest.jorge.ui.component.CustomTitleToolbar>
