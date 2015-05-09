@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ScreenInteractionTest</string>
+    <string name="content_description_splash">Screen Interaction</string>
 </resources>

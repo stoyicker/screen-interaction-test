@@ -44,4 +44,5 @@ repositories {
 dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
+    compile 'com.android.support:appcompat-v7:22.1.1'
 }
