@@ -34,6 +34,8 @@ android {
 
         enable 'IconExpectedSize', 'LogConditional', 'NegativeMargin', 'NewerVersionAvailable',
                 'SelectableText', 'TypographyQuotes'
+
+        disable 'IconMissingDensityFolder'
     }
 }
 

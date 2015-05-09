@@ -25,7 +25,7 @@ public final class SplashActivity extends IcedActivity {
 
     @Nullable
     @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
+    public View onCreateView(final String name, final Context context, final AttributeSet attrs) {
 
         final Context appContext = getApplicationContext();
 
