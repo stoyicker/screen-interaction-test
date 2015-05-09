@@ -12,7 +12,7 @@
 
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,7 +22,6 @@
 
         <activity
             android:name=".ui.activity.MedarbetareActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"/>
     </application>
 
