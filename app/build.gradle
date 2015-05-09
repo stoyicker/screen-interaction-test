@@ -10,7 +10,7 @@ android {
             minSdkVersion 21
             targetSdkVersion 22
             versionCode 1
-            versionName "0"
+            versionName "0.0.0"
         }
     }
 
@@ -43,6 +43,10 @@ repositories {
 }
 
 dependencies {
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
     compile 'com.android.support:appcompat-v7:22.1.1'

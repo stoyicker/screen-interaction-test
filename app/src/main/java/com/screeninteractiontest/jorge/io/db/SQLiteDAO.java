@@ -18,6 +18,8 @@ import java.util.List;
 
 public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
+    //TODO Sanitize the urls for reliable database storage
+
     public static final Object DB_LOCK = new Object();
     private static final String TABLE_KEY_ID = "TABLE_KEY_TIMESTAMP";
     private static final String TABLE_KEY_FIRST_NAME = "TABLE_KEY_TITLE";
@@ -25,6 +27,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private static final String TABLE_KEY_POSITION = "TABLE_KEY_DESC";
     private static final String TABLE_KEY_IS_FAVORITE = "TABLE_KEY_READ";
     private static final String TABLE_KEY_PHOTO_URL = "TABLE_KEY_PHOTO_URL";
+    private static final String TABLE_KEY_LARGE_PHOTO_URL = "TABLE_KEY_LARGE_PHOTO_URL";
     private static final String CONTACT_TABLE_NAME = "TABLE_CONTACTS";
     private static Context mContext;
     private static SQLiteDAO singleton;
@@ -65,6 +68,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 TABLE_KEY_SECOND_NAME + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_IS_FAVORITE + " INTEGER DEFAULT 0, " +
                 TABLE_KEY_PHOTO_URL + " TEXT NOT NULL ON CONFLICT IGNORE, " +
+                TABLE_KEY_LARGE_PHOTO_URL + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_POSITION + " TEXT NOT NULL ON CONFLICT IGNORE )";
 
         synchronized (DB_LOCK) {
@@ -99,6 +103,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         ret.put(TABLE_KEY_SECOND_NAME, contact.getSecondName());
         ret.put(TABLE_KEY_POSITION, contact.getPosition());
         ret.put(TABLE_KEY_PHOTO_URL, contact.getPhotoUrl());
+        ret.put(TABLE_KEY_LARGE_PHOTO_URL, contact.getLargePhotoUrl());
         ret.put(TABLE_KEY_IS_FAVORITE, contact.isFavorite() ? 1 : 0);
         return ret;
     }
@@ -109,6 +114,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_SECOND_NAME)),
                 contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_POSITION)),
                 contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PHOTO_URL)),
+                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_LARGE_PHOTO_URL)),
                 contactCursor.getInt(contactCursor.getColumnIndex(TABLE_KEY_IS_FAVORITE)) == 0 ? Boolean
                         .FALSE : Boolean.TRUE);
     }
