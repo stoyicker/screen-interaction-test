@@ -26,7 +26,6 @@
 
     <style name="ToolbarTitle">
         <item name="android:background">@color/theme_transparent</item>
-        <item name="android:gravity">start</item>
         <item name="android:textColor">@color/toolbar_title</item>
         <item name="android:shadowColor">@color/toolbar_title_shadow</item>
         <item name="android:shadowDx">@dimen/toolbar_title_shadow_dx</item>
