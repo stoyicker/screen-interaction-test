@@ -1,5 +1,6 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,18 +8,22 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 import com.screeninteractiontest.jorge.R;
+import com.screeninteractiontest.jorge.ui.activity.base.IcedActivity;
 
 import java.util.concurrent.Executors;
 
+import icepick.Icicle;
+
 public final class SplashActivity extends IcedActivity {
 
-    private static final Long SPLASH_DURATION_MILLIS = 3000L;
+    private static final Long SPLASH_DURATION_MILLIS = 2000L;
+    @Icicle
     private Boolean hasTimerStarted = Boolean.FALSE;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen);
+        setContentView(R.layout.activity_splash);
     }
 
     @Override
@@ -59,10 +64,10 @@ public final class SplashActivity extends IcedActivity {
     }
 
     private void start(final Context context) {
-        final Intent intent = new Intent(context, MedarbetareActivity.class);
+        final Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
         //noinspection unchecked
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.screeninteractiontest.jorge.ui.component.CustomTitleToolbar
+    android:id="@+id/toolbar"
+    style="@style/Toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        style="@style/ToolbarTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</com.screeninteractiontest.jorge.ui.component.CustomTitleToolbar>

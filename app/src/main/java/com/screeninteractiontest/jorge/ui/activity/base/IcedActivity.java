@@ -1,4 +1,4 @@
-package com.screeninteractiontest.jorge.ui.activity;
+package com.screeninteractiontest.jorge.ui.activity.base;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,8 +8,10 @@ import icepick.Icepick;
 
 /**
  * Base class that generates boilerplate for state handling on configuration change.
+ * The splash activity requires using a non-compat theme, which means that it needs a non-compat
+ * version of IcedAppCompatActivity.
  *
- * @author stoyicker.
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public abstract class IcedActivity extends Activity {
 

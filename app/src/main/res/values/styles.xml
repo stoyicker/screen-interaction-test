@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:background">@drawable/theme_background</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:background">@drawable/theme_app_background</item>
+        <item name="android:windowBackground">@drawable/theme_app_background</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform
+        </item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:background">@drawable/theme_actionbar_background</item>
+        <item name="android:minHeight">@dimen/abc_action_bar_default_height_material</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:elevation">@dimen/actionbar_elevation</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="ToolbarTitle">
+        <item name="android:background">@color/theme_transparent</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/toolbar_title</item>
+        <item name="android:shadowColor">@color/toolbar_title_shadow</item>
+        <item name="android:shadowDx">@dimen/toolbar_title_shadow_dx</item>
+        <item name="android:shadowDy">@dimen/toolbar_title_shadow_dy</item>
+        <item name="android:shadowRadius">@dimen/toolbar_title_shadow_radius</item>
+        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
     </style>
 </resources>
