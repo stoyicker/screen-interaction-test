@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    productFlavors {
+        standard {
+            applicationId "com.screeninteractiontest.jorge"
+            minSdkVersion 21
+            targetSdkVersion 22
+            versionCode 1
+            versionName "0"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+        }
+    }
+
+    lintOptions {
+        absolutePaths true
+
+        warningsAsErrors true
+
+        enable 'IconExpectedSize', 'LogConditional', 'NegativeMargin', 'NewerVersionAvailable',
+                'SelectableText', 'TypographyQuotes'
+    }
+}
+
+repositories {
+    maven { url "https://clojars.org/repo/" }
+}
+
+dependencies {
+    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
+    provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
+}

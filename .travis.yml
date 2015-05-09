@@ -1,0 +1,21 @@
+language: android
+# Enable container-based infrastructure ##START##
+sudo: false
+# Enable container-based infrastructure ##END##
+android:
+  components:
+    - build-tools-22.0.1
+    - android-22
+    - extra-android-m2repository
+jdk:
+  - oraclejdk8
+branches:
+  only:
+    - master
+before_install:
+# Twitter data stub ##END#
+# Mark Gradle as executable ##START##
+    - chmod +x ./gradlew
+# Mark Gradle as executable ##END##
+script:
+    - ./gradlew clean build
