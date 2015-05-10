@@ -9,4 +9,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_picture"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/overlay"
+            style="@style/ContactPictureOverlay"
+            android:textIsSelectable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/picture"
+            android:layout_alignStart="@id/picture"
+            android:layout_margin="@dimen/contact_picture_overlay"
+            android:padding="@dimen/contact_picture_overlay_padding"/>
+    </RelativeLayout>
+
 </LinearLayout>

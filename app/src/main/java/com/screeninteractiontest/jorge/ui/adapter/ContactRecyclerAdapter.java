@@ -50,7 +50,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
 
     @SuppressWarnings("FieldCanBeLocal") //For visibility
     private final Integer
-            CONTACT_IMAGE_RES_ID_DEFAULT = R.drawable.contact_thumbail_default, CONTACT_IMAGE_RES_ID_ERROR = R.drawable.contact_thumbail_error;
+            CONTACT_THUMBNAIL_RES_ID_DEFAULT = R.drawable.contact_thumbail_default, CONTACT_THUMBNAIL_RES_ID_ERROR = R.drawable.contact_thumbail_error;
 
     private static String IMAGE_LOAD_TAG;
     private final IListObserver mListObserver;
@@ -105,9 +105,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
             final String thumbnailUrl = item.getThumbnailUrl();
             final Picasso instance = Picasso.with(mContext);
             if (thumbnailUrl.isEmpty()) {
-                instance.load(CONTACT_IMAGE_RES_ID_DEFAULT).into(holder.photoView);
+                instance.load(CONTACT_THUMBNAIL_RES_ID_DEFAULT).into(holder.photoView);
             } else
-                instance.load(item.getThumbnailUrl()).error(CONTACT_IMAGE_RES_ID_ERROR).placeholder(CONTACT_IMAGE_RES_ID_ERROR).tag(IMAGE_LOAD_TAG).into(holder.photoView);
+                instance.load(thumbnailUrl).error(CONTACT_THUMBNAIL_RES_ID_ERROR).placeholder(CONTACT_THUMBNAIL_RES_ID_DEFAULT).tag(IMAGE_LOAD_TAG).into(holder.photoView);
         }
     }
 

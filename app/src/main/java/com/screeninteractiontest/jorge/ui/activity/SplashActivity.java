@@ -19,7 +19,7 @@ public final class SplashActivity extends IcedActivity {
 
     private static final Long SPLASH_DURATION_MILLIS = 2000L;
     @Icicle
-    private Boolean hasTimerStarted = Boolean.FALSE;
+    private Boolean isTimerStarted = Boolean.FALSE;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public final class SplashActivity extends IcedActivity {
          * wireframe I understand that the download must happen in the list screen while I show a
          * circular loading progressbar, so I'm using this activity just as a dummy to show the
          * splash screen */
-        if (!hasTimerStarted) {
+        if (!isTimerStarted) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected void onPreExecute() {
-                    hasTimerStarted = Boolean.TRUE;
+                    isTimerStarted = Boolean.TRUE;
                 }
 
                 @Override

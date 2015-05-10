@@ -62,15 +62,21 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
 
         mContext = getApplicationContext();
 
-        initializeActionBar(mToolbar);
-        initializeContactList(mContactList, mContactListSwipeToRefreshLayout);
+        initializeActionBar();
+        initializeContactList();
     }
 
-    private void initializeContactList(final RecyclerView contactList, final ChainableSwipeRefreshLayout contactListSwipeToRefreshLayout) {
-        contactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
-        contactList.setLayoutManager(new LinearLayoutManager(mContext));
-        contactList.setItemAnimator(new DefaultItemAnimator());
-        contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
+    }
+
+    private void initializeContactList() {
+        mContactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
+        mContactList.setLayoutManager(new LinearLayoutManager(mContext));
+        mContactList.setItemAnimator(new DefaultItemAnimator());
+        mContactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
         updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();
         Integer actionBarHeight = -1;
@@ -82,20 +88,20 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
                 R.dimen.swipe_refresh_progress_bar_start_margin),
                 progressBarEndMargin = mContext.getResources().getDimensionPixelSize(
                         R.dimen.swipe_refresh_progress_bar_end_margin);
-        contactListSwipeToRefreshLayout.setProgressViewOffset(Boolean.FALSE, actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
-        contactListSwipeToRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mContactListSwipeToRefreshLayout.setProgressViewOffset(Boolean.FALSE, actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
+        mContactListSwipeToRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mContactAdapter.requestDataLoad();
             }
         });
-        contactList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
+        mContactList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(final View childView, final int position) {
                 ContactListActivity.this.launchContactDetail(mContactAdapter.getContact(position));
             }
         }));
-        contactListSwipeToRefreshLayout.setRecyclerView(contactList);
+        mContactListSwipeToRefreshLayout.setRecyclerView(mContactList);
     }
 
     @Override
@@ -121,8 +127,8 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         }
     }
 
-    private void initializeActionBar(final Toolbar toolbar) {
-        setSupportActionBar(toolbar);
+    private void initializeActionBar() {
+        setSupportActionBar(mToolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

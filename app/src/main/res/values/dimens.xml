@@ -10,4 +10,8 @@
     <dimen name="contact_list_name">16sp</dimen>
     <dimen name="contact_title_name">12sp</dimen>
     <dimen name="contact_list_image_margin">4dp</dimen>
+    <dimen name="contact_picture_overlay_text">16sp</dimen>
+    <dimen name="contact_picture_overlay_padding">8dp</dimen>
+    <dimen name="contact_picture_overlay">12dp</dimen>
+    <dimen name="contact_picture_overlay_background_radius">8dp</dimen>
 </resources>

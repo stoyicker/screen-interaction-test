@@ -1,5 +1,6 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -8,11 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,8 +32,22 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @InjectView(R.id.picture)
+    ImageView mPictureView;
+
+    @InjectView(R.id.overlay)
+    TextView mOverlayView;
+
+    @SuppressWarnings("FieldCanBeLocal") //For visibility
+    private final Integer
+            CONTACT_PICTURE_RES_ID_DEFAULT = R.drawable.contact_picture_default, CONTACT_PICTURE_RES_ID_ERROR = R.drawable.contact_picture_error;
+
+    private static final String IMAGE_LOAD_TAG = ContactDetailActivity.class.getCanonicalName();
+
     @Icicle
     private Contact mContact;
+
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,17 +55,36 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         setContentView(R.layout.activity_contact_detail);
         ButterKnife.inject(this);
 
-        mContact = getIntent().getExtras().getParcelable(EXTRA_KEY_CONTACT);
+        mContext = getApplicationContext();
 
-        initializeActionBar(mToolbar, mContact.getName());
+        mContact = getIntent().getExtras().getParcelable(EXTRA_KEY_CONTACT);
+        fillFields();
+        initializeActionBar();
+
     }
 
-    private void initializeActionBar(final Toolbar toolbar, final String contactName) {
-        setSupportActionBar(toolbar);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
+    }
+
+    private void fillFields() {
+        final String pictureUrl = mContact.getPictureUrl();
+        final Picasso instance = Picasso.with(mContext);
+        if (pictureUrl.isEmpty()) {
+            instance.load(CONTACT_PICTURE_RES_ID_DEFAULT).into(mPictureView);
+        } else
+            instance.load(pictureUrl).error(CONTACT_PICTURE_RES_ID_ERROR).placeholder(CONTACT_PICTURE_RES_ID_DEFAULT).tag(IMAGE_LOAD_TAG).into(mPictureView);
+        mOverlayView.setText(mContact.getJobTitle());
+    }
+
+    private void initializeActionBar() {
+        setSupportActionBar(mToolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(contactName);
+            actionBar.setTitle(mContact.getName());
             actionBar.setDisplayHomeAsUpEnabled(Boolean.FALSE);
         }
     }

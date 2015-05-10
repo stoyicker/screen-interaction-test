@@ -41,4 +41,10 @@
         <item name="android:textSize">@dimen/contact_title_name</item>
         <item name="android:textColor">@color/contact_list_title</item>
     </style>
+
+    <style name="ContactPictureOverlay">
+        <item name="android:background">@drawable/theme_contact_picture_overlay_background</item>
+        <item name="android:textSize">@dimen/contact_picture_overlay_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
