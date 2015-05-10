@@ -76,7 +76,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Contact item = getItem(position);
         if (item != null) {
-            holder.favoriteView.setVisibility(item.isFavorite() ? View.VISIBLE : View.GONE);
+            holder.favoriteView.setVisibility(item.isFavorite() ? View.VISIBLE : View.INVISIBLE);
             holder.nameView.setText(item.getName());
             holder.positionView.setText(item.getJobTitle());
             final String thumbnailUrl = item.getThumbnailUrl();

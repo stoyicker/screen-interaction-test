@@ -8,4 +8,6 @@
     <color name="theme_primary">@android:color/black</color>
     <color name="theme_contact_card_background_unselected">@android:color/white</color>
     <color name="theme_app_background">@android:color/black</color>
+    <color name="contact_list_title">@android:color/black</color>
+    <color name="contact_list_name">@android:color/holo_blue_dark</color>
 </resources>

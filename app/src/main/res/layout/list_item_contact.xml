@@ -3,9 +3,8 @@
                                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/contact_card_height"
-                                    android:layout_marginBottom="@dimen/contact_card_view_bottom_margin"
-                                    android:background="?android:attr/selectableItemBackground"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/contact_card_view_margin"
                                     android:elevation="@dimen/contact_card_elevation"
                                     card_view:cardBackgroundColor="@color/theme_contact_card_background_unselected"
                                     card_view:cardCornerRadius="@dimen/contact_card_corner_radius"
@@ -14,45 +13,48 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:padding="@dimen/card_padding">
 
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
+            android:layout_margin="@dimen/contact_list_image_margin"
             android:scaleType="centerInside"
             tools:ignore="ContentDescription"/>
 
         <ImageView
             android:id="@+id/favorite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/contact_list_image_margin"
             android:contentDescription="@string/contact_favorite"
             android:scaleType="centerInside"
             android:src="@drawable/contact_favorite"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/name"
+            style="@style/ContactListName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/thumbnail"
             android:layout_toEndOf="@id/thumbnail"
             android:layout_toStartOf="@id/favorite"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"/>
+            android:textIsSelectable="true"/>
 
 
-            <TextView
-                android:id="@+id/position"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/position"
+            style="@style/ContactListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/thumbnail"
+            android:layout_toEndOf="@id/thumbnail"
+            android:layout_toStartOf="@id/favorite"
+            android:textIsSelectable="true"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
