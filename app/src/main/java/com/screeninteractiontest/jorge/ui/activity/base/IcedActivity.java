@@ -8,8 +8,7 @@ import icepick.Icepick;
 
 /**
  * Base class that generates boilerplate for state handling on configuration change.
- * The splash activity requires using a non-compat theme, which means that it needs a non-compat
- * version of IcedAppCompatActivity.
+ * The splash activity requires using a non-compat theme, which means that it needs a non-appcompat version of IcedAppCompatActivity.
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */

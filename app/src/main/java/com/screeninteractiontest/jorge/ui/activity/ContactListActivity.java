@@ -1,6 +1,8 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,14 +20,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.screeninteractiontest.jorge.R;
+import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
-import com.screeninteractiontest.jorge.ui.adapter.base.ContactRecyclerAdapter;
+import com.screeninteractiontest.jorge.ui.adapter.ContactRecyclerAdapter;
 import com.screeninteractiontest.jorge.ui.component.ChainableSwipeRefreshLayout;
+import com.screeninteractiontest.jorge.ui.component.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import icepick.Icicle;
 
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
@@ -45,6 +50,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     View mEmptyView;
 
     private Context mContext;
+
     private ContactRecyclerAdapter mContactAdapter;
 
     private static final String IMAGE_LOAD_TAG = ContactListActivity.class.getCanonicalName();
@@ -73,10 +79,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
                     getResources().getDisplayMetrics());
         }
-        if (actionBarHeight == -1) {
-            //Should never happen, but just in case
-            throw new IllegalStateException("Couldn't get the ActionBar height attribute");
-        }
         final Integer progressBarStartMargin = mContext.getResources().getDimensionPixelSize(
                 R.dimen.swipe_refresh_progress_bar_start_margin),
                 progressBarEndMargin = mContext.getResources().getDimensionPixelSize(
@@ -88,7 +90,27 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
                 mContactAdapter.requestDataLoad();
             }
         });
+        contactList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View childView, final int position) {
+                ContactListActivity.this.launchContactDetail(mContactAdapter.getContact(position));
+            }
+
+            @Override
+            public void onItemLongPress(View childView, int position) {
+                //TODO Call, fallback to mail, fallback to webpage
+            }
+        }));
         contactListSwipeToRefreshLayout.setRecyclerView(contactList);
+    }
+
+    private void launchContactDetail(final Contact contact) {
+        final Intent intent = new Intent(mContext, ContactDetailActivity.class);
+        final Bundle extras = new Bundle();
+        extras.putParcelable(ContactDetailActivity.EXTRA_KEY_CONTACT, contact);
+        intent.putExtras(extras);
+        //noinspection unchecked
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     private void updateEmptyViewVisibility() {
@@ -169,11 +191,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     public void onDataReloadErrored() {
         mContactListSwipeToRefreshLayout.setRefreshing(Boolean.FALSE);
         Toast.makeText(mContext, R.string.error_contact_info_download, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onContactSelected(Integer contactId) {
-        //TODO Launch the contact card activity
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.screeninteractiontest.jorge.ui.adapter.base;
+package com.screeninteractiontest.jorge.ui.adapter;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -84,6 +84,10 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                     mListObserver.onDataReloadCompleted();
             }
         }.executeOnExecutor(Executors.newSingleThreadExecutor());
+    }
+
+    public Contact getContact(final int position) {
+        return items.get(position);
     }
 
     @Override
@@ -232,8 +236,6 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         void onDataReloadCompleted();
 
         void onDataReloadErrored();
-
-        void onContactSelected(final Integer contactId);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
