@@ -1,11 +1,11 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 
 import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.io.db.SQLiteDAO;
@@ -77,6 +77,6 @@ public final class SplashActivity extends IcedActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
         //noinspection unchecked
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
     }
 }
