@@ -57,7 +57,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     }
 
     private void initializeContactList(final RecyclerView contactList, final ChainableSwipeRefreshLayout contactListSwipeToRefreshLayout) {
-        contactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_text_primary, R.color.theme_primary);
+        contactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
         contactList.setLayoutManager(new LinearLayoutManager(mContext));
         contactList.setItemAnimator(new DefaultItemAnimator());
         contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG));

@@ -113,11 +113,11 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
     }
 
     private Contact mapStorableToContact(final Cursor contactCursor) {
-        return new Contact(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_NAME)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_JOB_TITLE)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_EMAIL)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PHONE)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_WEBPAGE)), contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PICTURE_URL)), contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_THUMBNAIL_URL)),
+        return new Contact(unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_NAME))),
+                unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_JOB_TITLE))),
+                unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_EMAIL))),
+                unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PHONE))),
+                unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_WEBPAGE))), unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PICTURE_URL))), unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_THUMBNAIL_URL))),
                 contactCursor.getInt(contactCursor.getColumnIndex(TABLE_KEY_IS_FAVORITE)) == 0 ? Boolean
                         .FALSE : Boolean.TRUE);
     }
@@ -160,6 +160,20 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
             return null;
 
         return "'" + input.replace("'", "''") + "'";
+    }
+
+    /**
+     * Unescapes a string.
+     *
+     * @param output {@link String} The string to unescape. It is assumed to be
+     *               escaped. Otherwise unexpected behavior may occur.
+     * @return {@link String} The escaped string.
+     */
+    private String unescapeString(final String output) {
+        if (output == null)
+            return null;
+
+        return output.substring(1, output.length() - 1);
     }
 
     private static class DatabaseOnMainThreadException extends RuntimeException {

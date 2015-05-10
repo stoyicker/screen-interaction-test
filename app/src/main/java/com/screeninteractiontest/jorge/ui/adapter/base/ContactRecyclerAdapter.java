@@ -80,10 +80,11 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
             holder.nameView.setText(item.getName());
             holder.positionView.setText(item.getJobTitle());
             final String thumbnailUrl = item.getThumbnailUrl();
+            final Picasso instance = Picasso.with(mContext);
             if (thumbnailUrl.isEmpty()) {
-                Picasso.with(mContext).load(DEFAULT_CONTACT_IMAGE_RES_ID).into(holder.photoView);
+                instance.load(DEFAULT_CONTACT_IMAGE_RES_ID).into(holder.photoView);
             } else
-                Picasso.with(mContext).load(item.getThumbnailUrl()).error(DEFAULT_CONTACT_IMAGE_RES_ID).tag(IMAGE_LOAD_TAG).into(holder.photoView);
+                instance.load(item.getThumbnailUrl()).error(DEFAULT_CONTACT_IMAGE_RES_ID).tag(IMAGE_LOAD_TAG).into(holder.photoView);
         }
     }
 
