@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="theme_toolbar_title">@android:color/white</color>
-    <color name="theme_toolbar_title_shadow">@android:color/holo_blue_bright</color>
     <color name="theme_transparent">@android:color/transparent</color>
     <color name="theme_actionbar_background">@android:color/black</color>
     <color name="theme_text_primary">@android:color/white</color>

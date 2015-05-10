@@ -40,6 +40,20 @@ public final class Contact {
     }
 
     /**
+     * @return The first name
+     */
+    public String getFirstName() {
+        return name.split(" ")[0];
+    }
+
+    /**
+     * @return The last name
+     */
+    public String getLastName() {
+        return name.split(" ")[1];
+    }
+
+    /**
      * @return The name
      */
     public String getName() {

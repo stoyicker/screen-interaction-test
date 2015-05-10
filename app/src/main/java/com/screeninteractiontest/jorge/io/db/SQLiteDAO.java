@@ -13,6 +13,8 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.db.base.RobustSQLiteOpenHelper;
 import com.screeninteractiontest.jorge.ui.UIUtils;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,6 +157,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
     }
 
+    @Contract("null -> null")
     private String escapeString(final String input) {
         if (input == null)
             return null;
@@ -169,6 +172,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
      *               escaped. Otherwise unexpected behavior may occur.
      * @return {@link String} The escaped string.
      */
+    @Contract("null -> null")
     private String unescapeString(final String output) {
         if (output == null)
             return null;

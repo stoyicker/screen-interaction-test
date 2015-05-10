@@ -10,7 +10,4 @@
     <dimen name="contact_list_name">16sp</dimen>
     <dimen name="contact_title_name">12sp</dimen>
     <dimen name="contact_list_image_margin">4dp</dimen>
-    <item name="toolbar_title_shadow_dx" format="float" type="dimen">2</item>
-    <item name="toolbar_title_shadow_dy" format="float" type="dimen">2</item>
-    <item name="toolbar_title_shadow_radius" format="float" type="dimen">2</item>
 </resources>

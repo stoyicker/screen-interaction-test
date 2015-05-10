@@ -9,11 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.screeninteractiontest.jorge.R;
+import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 import com.screeninteractiontest.jorge.ui.adapter.base.ContactRecyclerAdapter;
 import com.screeninteractiontest.jorge.ui.component.ChainableSwipeRefreshLayout;
@@ -60,7 +63,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         contactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
         contactList.setLayoutManager(new LinearLayoutManager(mContext));
         contactList.setItemAnimator(new DefaultItemAnimator());
-        contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG));
+        contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_TYPE, 0)));
         updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();
         Integer actionBarHeight = -1;
@@ -101,6 +104,13 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         if (actionBar != null) {
             actionBar.setTitle(R.string.title_contact_list);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_contact_list, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

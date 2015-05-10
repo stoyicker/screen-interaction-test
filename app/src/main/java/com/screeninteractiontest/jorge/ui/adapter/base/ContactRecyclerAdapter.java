@@ -2,6 +2,7 @@ package com.screeninteractiontest.jorge.ui.adapter.base;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.screeninteractiontest.jorge.R;
-import com.screeninteractiontest.jorge.data.ContactManager;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
+import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.io.api.ContactApiClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -31,6 +35,15 @@ import retrofit.client.Response;
  */
 public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.ViewHolder> {
 
+    public enum SORT_MODE {
+        SORT_MODE_FIRST_NAME_DESCENDING,
+        SORT_MODE_FIRST_NAME_ASCENDING,
+        SORT_MODE_LAST_NAME_DESCENDING,
+        SORT_MODE_LAST_NAME_ASCENDING
+    }
+
+    private SORT_MODE mSortMode;
+
     private final List<Contact> items = new ArrayList<>();
     private final Context mContext;
 
@@ -40,11 +53,12 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
     private static String IMAGE_LOAD_TAG;
     private final IListObserver mListObserver;
 
-    public ContactRecyclerAdapter(final Context context, final IListObserver listObserver, final String imageLoadTag) {
+    public ContactRecyclerAdapter(final Context context, final IListObserver listObserver, final String imageLoadTag, final Integer sortMode) {
         this.mContext = context;
         this.mListObserver = listObserver;
         IMAGE_LOAD_TAG = imageLoadTag;
         parseLocalContacts();
+        swapSortMode(sortMode);
     }
 
     private void parseLocalContacts() {
@@ -58,7 +72,6 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
             protected void onPostExecute(final List<Contact> contacts) {
                 if (!contacts.isEmpty()) {
                     items.addAll(contacts);
-                    notifyDataSetChanged();
                 }
                 if (mListObserver != null)
                     mListObserver.onDataReloadCompleted();
@@ -113,6 +126,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                     protected void onPostExecute(final List<Contact> newContacts) {
                         if (!newContacts.isEmpty()) {
                             items.addAll(newContacts);
+                            requestSort();
                             notifyDataSetChanged();
                         }
                         if (mListObserver != null)
@@ -128,6 +142,85 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                     mListObserver.onDataReloadErrored();
             }
         });
+    }
+
+    public void swapSortMode(final Integer newSortMode) {
+        final SORT_MODE[] sortModeValues = SORT_MODE.values();
+        if (newSortMode < 0 || newSortMode >= sortModeValues.length) {
+            throw new IllegalArgumentException("Value " + newSortMode + " does not map to a correct " + SORT_MODE.class.getName() + ": " + Arrays.toString(sortModeValues));
+        }
+        this.mSortMode = sortModeValues[newSortMode];
+        requestSort();
+    }
+
+    private void requestSort() {
+        Comparator<Contact> comparator;
+        switch (mSortMode) {
+            case SORT_MODE_FIRST_NAME_ASCENDING:
+                comparator = new Comparator<Contact>() {
+                    @Override
+                    public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
+                        Integer ret;
+
+                        final Boolean lF = lhs.isFavorite();
+                        if (lF != rhs.isFavorite()) {
+                            ret = lhs.isFavorite() ? 1 : -1;
+                        } else ret = lhs.getFirstName().compareTo(rhs.getFirstName());
+
+                        return -1 * ret;
+                    }
+                };
+                break;
+            case SORT_MODE_FIRST_NAME_DESCENDING:
+                comparator = new Comparator<Contact>() {
+                    @Override
+                    public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
+                        Integer ret;
+
+                        final Boolean lF = lhs.isFavorite();
+                        if (lF != rhs.isFavorite()) {
+                            ret = lhs.isFavorite() ? 1 : -1;
+                        } else ret = lhs.getFirstName().compareTo(rhs.getFirstName());
+
+                        return ret;
+                    }
+                };
+                break;
+            case SORT_MODE_LAST_NAME_ASCENDING:
+                comparator = new Comparator<Contact>() {
+                    @Override
+                    public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
+                        Integer ret;
+
+                        final Boolean lF = lhs.isFavorite();
+                        if (lF != rhs.isFavorite()) {
+                            ret = lhs.isFavorite() ? 1 : -1;
+                        } else ret = lhs.getLastName().compareTo(rhs.getLastName());
+
+                        return -1 * ret;
+                    }
+                };
+                break;
+            case SORT_MODE_LAST_NAME_DESCENDING:
+                comparator = new Comparator<Contact>() {
+                    @Override
+                    public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
+                        Integer ret;
+
+                        final Boolean lF = lhs.isFavorite();
+                        if (lF != rhs.isFavorite()) {
+                            ret = lhs.isFavorite() ? 1 : -1;
+                        } else ret = lhs.getLastName().compareTo(rhs.getLastName());
+
+                        return ret;
+                    }
+                };
+                break;
+            default:
+                throw new IllegalStateException("Illegal " + SORT_MODE.class.getName() + " enum value " + mSortMode);
+        }
+        Collections.sort(items, comparator);
+        notifyDataSetChanged();
     }
 
     public interface IListObserver {

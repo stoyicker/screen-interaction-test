@@ -1,4 +1,6 @@
-package com.screeninteractiontest.jorge.data;
+package com.screeninteractiontest.jorge.data.middlelayer;
+
+import android.support.annotation.NonNull;
 
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.db.SQLiteDAO;
@@ -12,6 +14,7 @@ import java.util.List;
 public final class ContactManager {
 
     private ContactManager() {
+        throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());
     }
 
     public static List<Contact> getAllContacts() {
@@ -41,7 +44,7 @@ public final class ContactManager {
         return actualInsertions;
     }
 
-    private static void sanitizeContact(final Contact contact) {
+    private static void sanitizeContact(@NonNull final Contact contact) {
         if (contact.getName() == null)
             contact.setName("");
 

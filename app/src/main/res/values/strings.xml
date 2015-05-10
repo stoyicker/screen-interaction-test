@@ -8,4 +8,5 @@
     <string name="contact_favorite">Favorite</string>
     <string name="contact_api_endpoint" translatable="false">http://www.screeninteraction.com/~simonedstrom</string>
     <string name="error_contact_info_download">Could not retrieve contacts. Sorry about that, please try again later.</string>
+    <string name="action_sort">Sort...</string>
 </resources>
