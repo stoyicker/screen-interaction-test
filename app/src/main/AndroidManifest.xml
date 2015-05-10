@@ -28,7 +28,8 @@
             android:launchMode="singleTop"/>
 
         <activity
-            android:name=".ui.activity.ContactDetailActivity">
+            android:name=".ui.activity.ContactDetailActivity"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.ContactListActivity"/>

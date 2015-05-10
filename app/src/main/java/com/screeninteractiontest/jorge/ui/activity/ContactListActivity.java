@@ -30,7 +30,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import icepick.Icicle;
 
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
@@ -104,6 +103,13 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         contactListSwipeToRefreshLayout.setRecyclerView(contactList);
     }
 
+    @Override
+    protected void onResume() {
+        //A contact might have been (de)marked as favorite, so a resort is needed
+        mContactAdapter.requestSort();
+        super.onResume();
+    }
+
     private void launchContactDetail(final Contact contact) {
         final Intent intent = new Intent(mContext, ContactDetailActivity.class);
         final Bundle extras = new Bundle();
@@ -151,7 +157,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
 
     private void showSortModes(@NonNull final View sourceView) {
         final PopupMenu popupMenu = new PopupMenu(this, sourceView);
-        popupMenu.inflate(R.menu.sort_modes);
+        popupMenu.inflate(R.menu.popup_sort_modes);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(final MenuItem item) {

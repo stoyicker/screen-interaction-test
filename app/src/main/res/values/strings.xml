@@ -13,4 +13,6 @@
     <string name="sort_mode_first_name_ascending">First name (ascending)</string>
     <string name="sort_mode_last_name_descending">Last name (descending)</string>
     <string name="sort_mode_last_name_ascending">Last name (ascending)</string>
+    <string name="action_save">Save as contact</string>
+    <string name="action_favorite">Favorite</string>
 </resources>

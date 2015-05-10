@@ -1,9 +1,12 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.screeninteractiontest.jorge.R;
@@ -49,13 +52,33 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_contact_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            //TODO Options
-            case android.R.id.home:
-                ActivityCompat.finishAfterTransition(this);
+            case R.id.action_favorite:
+                return Boolean.TRUE;
+            case R.id.action_save:
+                launchSaveContactToPhone();
+                return Boolean.TRUE;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void launchSaveContactToPhone() {
+        final Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
+        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, mContact.getName());
+        intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, mContact.getJobTitle());
+        intent.putExtra(ContactsContract.Intents.Insert.EMAIL, mContact.getEmail());
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, mContact.getPhone());
+        intent.putExtra("website", mContact.getWebpage());
+        startActivity(intent);
     }
 }

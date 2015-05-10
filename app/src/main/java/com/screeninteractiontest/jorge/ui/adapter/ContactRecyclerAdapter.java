@@ -60,7 +60,6 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         if (sortMode < 0 || sortMode >= sortModeValues.length) {
             throw new IllegalArgumentException("Value " + sortMode + " does not map to a correct " + SORT_MODE.class.getName() + ": " + Arrays.toString(sortModeValues));
         }
-
         this.mContext = context;
         this.mListObserver = listObserver;
         IMAGE_LOAD_TAG = imageLoadTag;
@@ -161,7 +160,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         requestSort();
     }
 
-    private void requestSort() {
+    public void requestSort() {
         Comparator<Contact> comparator;
         switch (mSortMode) {
             case SORT_MODE_FIRST_NAME_ASCENDING:
