@@ -56,15 +56,6 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
          * @param position  Position of the item that was clicked.
          */
         void onItemClick(final View childView, final int position);
-
-        /**
-         * Called when an item is long pressed.
-         *
-         * @param childView View of the item that was long pressed.
-         * @param position  Position of the item that was long pressed.
-         */
-        void onItemLongPress(final View childView, final int position);
-
     }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -75,21 +66,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
                 listener.onItemClick(childView, childViewPosition);
             }
 
-            return Boolean.TRUE;
-        }
-
-        @Override
-        public void onLongPress(final MotionEvent event) {
-            if (childView != null) {
-                listener.onItemLongPress(childView, childViewPosition);
-            }
-        }
-
-        @Override
-        public boolean onDown(final MotionEvent event) {
-            // Best practice to always return true here.
-            // http://developer.android.com/training/gestures/detector.html#detect
-            return Boolean.TRUE;
+            return Boolean.FALSE;
         }
 
     }

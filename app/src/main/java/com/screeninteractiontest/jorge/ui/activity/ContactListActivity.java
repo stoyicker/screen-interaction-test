@@ -94,11 +94,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
             public void onItemClick(final View childView, final int position) {
                 ContactListActivity.this.launchContactDetail(mContactAdapter.getContact(position));
             }
-
-            @Override
-            public void onItemLongPress(View childView, int position) {
-                //TODO Call, fallback to mail, fallback to webpage
-            }
         }));
         contactListSwipeToRefreshLayout.setRecyclerView(contactList);
     }

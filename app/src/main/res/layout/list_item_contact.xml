@@ -5,9 +5,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/contact_card_view_margin"
+                                    android:clickable="true"
                                     android:elevation="@dimen/contact_card_elevation"
-                                    card_view:cardBackgroundColor="@color/theme_contact_card_background_unselected"
-                                    card_view:cardCornerRadius="@dimen/contact_card_corner_radius"
+                                    android:foreground="?android:attr/selectableItemBackground"
+                                    android:hapticFeedbackEnabled="true"
+                                    android:longClickable="true"
+ card_view:cardBackgroundColor="@color/theme_contact_card_background"                                   card_view:cardCornerRadius="@dimen/contact_card_corner_radius"
                                     card_view:cardPreventCornerOverlap="false">
 
     <RelativeLayout
