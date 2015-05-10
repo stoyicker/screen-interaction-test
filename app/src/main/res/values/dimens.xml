@@ -4,7 +4,6 @@
     <dimen name="swipe_refresh_progress_bar_start_margin">-40dp</dimen>
     <dimen name="swipe_refresh_progress_bar_end_margin">16dp</dimen>
     <dimen name="contact_card_view_margin">4dp</dimen>
-    <dimen name="contact_card_elevation">4dp</dimen>
     <dimen name="contact_card_corner_radius">4dp</dimen>
     <dimen name="card_padding">4dp</dimen>
     <dimen name="contact_list_name">16sp</dimen>
