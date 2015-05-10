@@ -1,6 +1,7 @@
 package com.screeninteractiontest.jorge.ui.adapter.base;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.screeninteractiontest.jorge.R;
-import com.screeninteractiontest.jorge.datamodel.Contact;
+import com.screeninteractiontest.jorge.data.ContactManager;
+import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.api.ContactApiClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,6 +44,26 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         this.mContext = context;
         this.mListObserver = listObserver;
         IMAGE_LOAD_TAG = imageLoadTag;
+        parseLocalContacts();
+    }
+
+    private void parseLocalContacts() {
+        new AsyncTask<Void, Void, List<Contact>>() {
+            @Override
+            protected List<Contact> doInBackground(final Void... params) {
+                return ContactManager.getAllContacts();
+            }
+
+            @Override
+            protected void onPostExecute(final List<Contact> contacts) {
+                if (!contacts.isEmpty()) {
+                    items.addAll(contacts);
+                    notifyDataSetChanged();
+                }
+                if (mListObserver != null)
+                    mListObserver.onDataReloadCompleted();
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     @Override
@@ -54,19 +77,18 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         final Contact item = getItem(position);
         if (item != null) {
             holder.favoriteView.setVisibility(item.isFavorite() ? View.VISIBLE : View.GONE);
-            holder.nameView.setText(item.getFullName());
-            holder.positionView.setText(item.getPosition());
-            Picasso.with(mContext).load(item.getPhotoUrl()).error(DEFAULT_CONTACT_IMAGE_RES_ID).tag(IMAGE_LOAD_TAG).into(holder.photoView);
+            holder.nameView.setText(item.getName());
+            holder.positionView.setText(item.getJobTitle());
+            final String thumbnailUrl = item.getThumbnailUrl();
+            if (thumbnailUrl.isEmpty()) {
+                Picasso.with(mContext).load(DEFAULT_CONTACT_IMAGE_RES_ID).into(holder.photoView);
+            } else
+                Picasso.with(mContext).load(item.getThumbnailUrl()).error(DEFAULT_CONTACT_IMAGE_RES_ID).tag(IMAGE_LOAD_TAG).into(holder.photoView);
         }
     }
 
     private Contact getItem(final int position) {
         return items.get(position);
-    }
-
-    @Override
-    public long getItemId(final int position) {
-        return getItem(position).getId();
     }
 
     @Override
@@ -78,17 +100,29 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         ContactApiClient.getContactApiClient(mContext).getContacts(new Callback<List<Contact>>() {
             @Override
             public void success(final List<Contact> contacts, final Response response) {
-                items.clear();
-                //What it has to add is not these contacts. Instead, it will send them to the manager, who will dump them to the database and return the updated ones
-                items.addAll(contacts);
-                notifyDataSetChanged();
-                if (mListObserver != null)
-                    mListObserver.onDataReloadCompleted();
+                //I am assuming that the endpoint doesn't correspond to all the contacts, but rather to new ones, and therefore I should implement the storage locally, since I can't post data. Because of this, how I consume the "API" is I download the data and, if there are any new contacts, I add them and refresh, but if there are not then I'm done.
+                //noinspection unchecked I don't want to pass them one by one as it is slower DB-wise
+                new AsyncTask<List<Contact>, Void, List<Contact>>() {
+                    @Override
+                    protected List<Contact> doInBackground(final List<Contact>... params) {
+                        return ContactManager.insertIfProceeds(params[0]);
+                    }
+
+                    @Override
+                    protected void onPostExecute(final List<Contact> newContacts) {
+                        if (!newContacts.isEmpty()) {
+                            items.addAll(newContacts);
+                            notifyDataSetChanged();
+                        }
+                        if (mListObserver != null)
+                            mListObserver.onDataReloadCompleted();
+                    }
+                }.executeOnExecutor(Executors.newSingleThreadExecutor(), contacts);
             }
 
             @Override
             public void failure(final RetrofitError error) {
-                Log.e("endpoint", error.getMessage());
+                Log.e(error.getUrl(), error.getMessage());
                 if (mListObserver != null)
                     mListObserver.onDataReloadErrored();
             }

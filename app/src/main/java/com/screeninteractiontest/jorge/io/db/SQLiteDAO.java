@@ -9,25 +9,24 @@ import android.support.annotation.NonNull;
 
 import com.screeninteractiontest.jorge.BuildConfig;
 import com.screeninteractiontest.jorge.R;
-import com.screeninteractiontest.jorge.datamodel.Contact;
+import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.db.base.RobustSQLiteOpenHelper;
 import com.screeninteractiontest.jorge.ui.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SQLiteDAO extends RobustSQLiteOpenHelper {
-
-    //TODO Sanitize the urls for reliable database storage
+public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
-    private static final String TABLE_KEY_ID = "TABLE_KEY_TIMESTAMP";
-    private static final String TABLE_KEY_FIRST_NAME = "TABLE_KEY_TITLE";
-    private static final String TABLE_KEY_SECOND_NAME = "TABLE_KEY_URL";
-    private static final String TABLE_KEY_POSITION = "TABLE_KEY_DESC";
-    private static final String TABLE_KEY_IS_FAVORITE = "TABLE_KEY_READ";
-    private static final String TABLE_KEY_PHOTO_URL = "TABLE_KEY_PHOTO_URL";
-    private static final String TABLE_KEY_LARGE_PHOTO_URL = "TABLE_KEY_LARGE_PHOTO_URL";
+    private static final String TABLE_KEY_NAME = "TABLE_KEY_NAME";
+    private static final String TABLE_KEY_JOB_TITLE = "TABLE_KEY_JOB_TITLE";
+    private static final String TABLE_KEY_EMAIL = "TABLE_KEY_EMAIL";
+    private static final String TABLE_KEY_PHONE = "TABLE_KEY_PHONE";
+    private static final String TABLE_KEY_WEBPAGE = "TABLE_KEY_WEBPAGE";
+    private static final String TABLE_KEY_PICTURE_URL = "TABLE_KEY_PICTURE_URL";
+    private static final String TABLE_KEY_THUMBNAIL_URL = "TABLE_KEY_THUMBNAIL_URL";
+    private static final String TABLE_KEY_IS_FAVORITE = "TABLE_KEY_IS_FAVORITE";
     private static final String CONTACT_TABLE_NAME = "TABLE_CONTACTS";
     private static Context mContext;
     private static SQLiteDAO singleton;
@@ -41,14 +40,15 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         if (singleton == null) {
             singleton = new SQLiteDAO(_context);
             mContext = _context;
-            getInstance().getWritableDatabase(); //Force database creation
         }
     }
 
     public synchronized static SQLiteDAO getInstance() {
+        if (UIUtils.isMainThread()) {
+            throw new DatabaseOnMainThreadException(mContext);
+        }
         if (singleton == null)
-            throw new IllegalStateException("SQLiteDAO.setup(Context) must be called before " +
-                    "trying to retrieve the instance.");
+            throw new IllegalStateException("SQLiteDAO.setup(Context) must be called before trying to retrieve the instance.");
         return singleton;
     }
 
@@ -63,13 +63,19 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         super.onCreate(db);
 
         final String createContactTableCommand = "CREATE TABLE IF NOT EXISTS " + CONTACT_TABLE_NAME + " ( " +
-                TABLE_KEY_ID + " INTEGER PRIMARY KEY ON CONFLICT IGNORE, " +
-                TABLE_KEY_FIRST_NAME + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_SECOND_NAME + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_IS_FAVORITE + " INTEGER DEFAULT 0, " +
-                TABLE_KEY_PHOTO_URL + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_LARGE_PHOTO_URL + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_POSITION + " TEXT NOT NULL ON CONFLICT IGNORE )";
+                /** I'm not happy about using the name as primary key. In a real
+                 * setup I would expect to have some id-type field provided by
+                 * the endpoint.
+                 */
+                TABLE_KEY_NAME + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
+                TABLE_KEY_JOB_TITLE + " TEXT, " +
+                TABLE_KEY_EMAIL + " TEXT, " +
+                TABLE_KEY_PHONE + " TEXT, " +
+                TABLE_KEY_WEBPAGE + " TEXT, " +
+                TABLE_KEY_PICTURE_URL + " TEXT, " +
+                TABLE_KEY_THUMBNAIL_URL + " TEXT, " +
+                TABLE_KEY_IS_FAVORITE + " INTEGER DEFAULT 0 " +
+                " )";
 
         synchronized (DB_LOCK) {
             db.execSQL(createContactTableCommand);
@@ -77,44 +83,41 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
     }
 
-    public void insertContacts(@NonNull final List<Contact> contacts) {
-        if (UIUtils.isMainThread()) {
-            throw new DatabaseOnMainThreadException(mContext);
-        }
-
+    public Boolean insertContact(@NonNull final Contact contact) {
         final SQLiteDatabase db = getWritableDatabase();
-        List<ContentValues> storableContacts = new ArrayList<>();
-        for (Contact contact : contacts)
-            storableContacts.add(mapContactToStorable(contact));
+        final ContentValues storableContact = mapContactToStorable(contact);
+
+        Boolean inserted;
 
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            for (ContentValues storableArticle : storableContacts)
-                db.insert(CONTACT_TABLE_NAME, null, storableArticle);
+            inserted = db.insert(CONTACT_TABLE_NAME, null, storableContact) != -1;
             db.setTransactionSuccessful();
             db.endTransaction();
         }
+
+        return inserted;
     }
 
     private ContentValues mapContactToStorable(final Contact contact) {
         ContentValues ret = new ContentValues();
-        ret.put(TABLE_KEY_ID, contact.getId());
-        ret.put(TABLE_KEY_FIRST_NAME, contact.getFirstName());
-        ret.put(TABLE_KEY_SECOND_NAME, contact.getSecondName());
-        ret.put(TABLE_KEY_POSITION, contact.getPosition());
-        ret.put(TABLE_KEY_PHOTO_URL, contact.getPhotoUrl());
-        ret.put(TABLE_KEY_LARGE_PHOTO_URL, contact.getLargePhotoUrl());
+        ret.put(TABLE_KEY_NAME, escapeString(contact.getName()));
+        ret.put(TABLE_KEY_JOB_TITLE, escapeString(contact.getJobTitle()));
+        ret.put(TABLE_KEY_EMAIL, escapeString(contact.getEmail()));
+        ret.put(TABLE_KEY_PHONE, escapeString(contact.getPhone()));
+        ret.put(TABLE_KEY_WEBPAGE, escapeString(contact.getWebpage()));
+        ret.put(TABLE_KEY_PICTURE_URL, escapeString(contact.getPictureUrl()));
+        ret.put(TABLE_KEY_THUMBNAIL_URL, escapeString(contact.getThumbnailUrl()));
         ret.put(TABLE_KEY_IS_FAVORITE, contact.isFavorite() ? 1 : 0);
         return ret;
     }
 
     private Contact mapStorableToContact(final Cursor contactCursor) {
-        return new Contact(contactCursor.getInt(contactCursor.getColumnIndex(TABLE_KEY_ID)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_FIRST_NAME)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_SECOND_NAME)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_POSITION)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PHOTO_URL)),
-                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_LARGE_PHOTO_URL)),
+        return new Contact(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_NAME)),
+                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_JOB_TITLE)),
+                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_EMAIL)),
+                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PHONE)),
+                contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_WEBPAGE)), contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_PICTURE_URL)), contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_THUMBNAIL_URL)),
                 contactCursor.getInt(contactCursor.getColumnIndex(TABLE_KEY_IS_FAVORITE)) == 0 ? Boolean
                         .FALSE : Boolean.TRUE);
     }
@@ -140,19 +143,23 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         return ret;
     }
 
-    public void updateContactIsFavorite(final Integer contactId, final Boolean newIsFavorite) {
-        if (UIUtils.isMainThread()) {
-            throw new DatabaseOnMainThreadException(mContext);
-        }
+    public void updateContactIsFavorite(final String contactName, final Boolean newIsFavorite) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues newReadContainer = new ContentValues();
         newReadContainer.put(TABLE_KEY_IS_FAVORITE, newIsFavorite ? 1 : 0);
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            db.update(CONTACT_TABLE_NAME, newReadContainer, TABLE_KEY_ID + " = '" + contactId, null);
+            db.update(CONTACT_TABLE_NAME, newReadContainer, TABLE_KEY_NAME + " = '" + contactName, null);
             db.setTransactionSuccessful();
             db.endTransaction();
         }
+    }
+
+    private String escapeString(final String input) {
+        if (input == null)
+            return null;
+
+        return "'" + input.replace("'", "''") + "'";
     }
 
     private static class DatabaseOnMainThreadException extends RuntimeException {

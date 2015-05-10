@@ -5,7 +5,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/contact_card_height"
                                     android:layout_marginBottom="@dimen/contact_card_view_bottom_margin"
-                                    android:animateLayoutChanges="true"
                                     android:background="?android:attr/selectableItemBackground"
                                     android:elevation="@dimen/contact_card_elevation"
                                     card_view:cardBackgroundColor="@color/theme_contact_card_background_unselected"

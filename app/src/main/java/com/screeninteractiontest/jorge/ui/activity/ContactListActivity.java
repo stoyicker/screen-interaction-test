@@ -115,6 +115,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     @Override
     public void onDataReloadCompleted() {
         mContactListSwipeToRefreshLayout.setRefreshing(Boolean.FALSE);
+        updateEmptyViewVisibility();
     }
 
     @Override
