@@ -9,4 +9,8 @@
     <string name="contact_api_endpoint" translatable="false">http://www.screeninteraction.com/~simonedstrom</string>
     <string name="error_contact_info_download">Could not retrieve contacts. Sorry about that, please try again later.</string>
     <string name="action_sort">Sort…</string>
+    <string name="sort_mode_first_name_descending">First name (descending)</string>
+    <string name="sort_mode_first_name_ascending">First name (ascending)</string>
+    <string name="sort_mode_last_name_descending">Last name (descending)</string>
+    <string name="sort_mode_last_name_ascending">Last name (ascending)</string>
 </resources>

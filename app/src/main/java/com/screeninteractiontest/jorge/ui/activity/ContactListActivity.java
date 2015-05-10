@@ -2,10 +2,12 @@ package com.screeninteractiontest.jorge.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -63,7 +65,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         contactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
         contactList.setLayoutManager(new LinearLayoutManager(mContext));
         contactList.setItemAnimator(new DefaultItemAnimator());
-        contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_TYPE, 0)));
+        contactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
         updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();
         Integer actionBarHeight = -1;
@@ -116,10 +118,45 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            //TODO onOptionsItemSelected
+            case R.id.action_sort:
+                final View anchorView = findViewById(R.id.action_sort);
+                showSortModes(anchorView != null ? anchorView : findViewById(android.R.id.home));
+                return Boolean.TRUE;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showSortModes(@NonNull final View sourceView) {
+        final PopupMenu popupMenu = new PopupMenu(this, sourceView);
+        popupMenu.inflate(R.menu.sort_modes);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final MenuItem item) {
+                ContactRecyclerAdapter.SORT_MODE newSortMode;
+
+                switch (item.getItemId()) {
+                    case R.id.sort_mode_first_name_descending:
+                        newSortMode = ContactRecyclerAdapter.SORT_MODE.SORT_MODE_FIRST_NAME_DESCENDING;
+                        break;
+                    case R.id.sort_mode_first_name_ascending:
+                        newSortMode = ContactRecyclerAdapter.SORT_MODE.SORT_MODE_FIRST_NAME_ASCENDING;
+                        break;
+                    case R.id.sort_mode_last_name_descending:
+                        newSortMode = ContactRecyclerAdapter.SORT_MODE.SORT_MODE_LAST_NAME_DESCENDING;
+                        break;
+                    case R.id.sort_mode_last_name_ascending:
+                        newSortMode = ContactRecyclerAdapter.SORT_MODE.SORT_MODE_LAST_NAME_ASCENDING;
+                        break;
+                    default:
+                        //Will never happen
+                        throw new IllegalArgumentException("Received invalid id " + item.getItemId());
+                }
+                mContactAdapter.setSortMode(newSortMode);
+                return Boolean.TRUE;
+            }
+        });
+        popupMenu.show();
     }
 
     @Override

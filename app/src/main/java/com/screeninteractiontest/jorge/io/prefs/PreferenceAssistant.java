@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 public final class PreferenceAssistant {
 
-    public static final String PREF_SORT_TYPE = "PREF_SORT_TYPE";
+    public static final String PREF_SORT_MODE = "PREF_SORT_MODE";
 
     private PreferenceAssistant() {
         throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());

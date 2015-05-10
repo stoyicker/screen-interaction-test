@@ -15,6 +15,7 @@ import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.io.api.ContactApiClient;
+import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,11 +55,16 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
     private final IListObserver mListObserver;
 
     public ContactRecyclerAdapter(final Context context, final IListObserver listObserver, final String imageLoadTag, final Integer sortMode) {
+        final SORT_MODE[] sortModeValues = SORT_MODE.values();
+        if (sortMode < 0 || sortMode >= sortModeValues.length) {
+            throw new IllegalArgumentException("Value " + sortMode + " does not map to a correct " + SORT_MODE.class.getName() + ": " + Arrays.toString(sortModeValues));
+        }
+
         this.mContext = context;
         this.mListObserver = listObserver;
         IMAGE_LOAD_TAG = imageLoadTag;
         parseLocalContacts();
-        swapSortMode(sortMode);
+        setSortMode(sortModeValues[sortMode]);
     }
 
     private void parseLocalContacts() {
@@ -144,12 +150,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         });
     }
 
-    public void swapSortMode(final Integer newSortMode) {
-        final SORT_MODE[] sortModeValues = SORT_MODE.values();
-        if (newSortMode < 0 || newSortMode >= sortModeValues.length) {
-            throw new IllegalArgumentException("Value " + newSortMode + " does not map to a correct " + SORT_MODE.class.getName() + ": " + Arrays.toString(sortModeValues));
-        }
-        this.mSortMode = sortModeValues[newSortMode];
+    public void setSortMode(final SORT_MODE newSortMode) {
+        this.mSortMode = newSortMode;
+        PreferenceAssistant.writeSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, mSortMode.ordinal());
         requestSort();
     }
 
@@ -165,7 +168,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
                             ret = lhs.isFavorite() ? 1 : -1;
-                        } else ret = lhs.getFirstName().compareTo(rhs.getFirstName());
+                        } else ret = lhs.getFirstName().compareToIgnoreCase(rhs.getFirstName());
 
                         return -1 * ret;
                     }
@@ -180,7 +183,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
                             ret = lhs.isFavorite() ? 1 : -1;
-                        } else ret = lhs.getFirstName().compareTo(rhs.getFirstName());
+                        } else ret = lhs.getFirstName().compareToIgnoreCase(rhs.getFirstName());
 
                         return ret;
                     }
@@ -195,7 +198,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
                             ret = lhs.isFavorite() ? 1 : -1;
-                        } else ret = lhs.getLastName().compareTo(rhs.getLastName());
+                        } else ret = lhs.getLastName().compareToIgnoreCase(rhs.getLastName());
 
                         return -1 * ret;
                     }
@@ -210,7 +213,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
                             ret = lhs.isFavorite() ? 1 : -1;
-                        } else ret = lhs.getLastName().compareTo(rhs.getLastName());
+                        } else ret = lhs.getLastName().compareToIgnoreCase(rhs.getLastName());
 
                         return ret;
                     }

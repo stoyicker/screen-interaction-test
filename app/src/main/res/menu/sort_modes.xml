@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sort_mode_first_name_descending"
+        android:title="@string/sort_mode_first_name_descending"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/sort_mode_first_name_ascending"
+        android:title="@string/sort_mode_first_name_ascending"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/sort_mode_last_name_descending"
+        android:title="@string/sort_mode_last_name_descending"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/sort_mode_last_name_ascending"
+        android:title="@string/sort_mode_last_name_ascending"
+        app:showAsAction="ifRoom"/>
+</menu>
