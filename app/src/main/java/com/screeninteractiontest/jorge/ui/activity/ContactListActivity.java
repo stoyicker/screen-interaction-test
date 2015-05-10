@@ -105,9 +105,8 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
 
     @Override
     protected void onResume() {
-        //A contact might have been (de)marked as favorite, so a resort is needed
-        mContactAdapter.requestSort();
         super.onResume();
+        mContactAdapter.parseLocalContacts();
     }
 
     private void launchContactDetail(final Contact contact) {

@@ -63,11 +63,10 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         this.mContext = context;
         this.mListObserver = listObserver;
         IMAGE_LOAD_TAG = imageLoadTag;
-        parseLocalContacts();
         setSortMode(sortModeValues[sortMode]);
     }
 
-    private void parseLocalContacts() {
+    public void parseLocalContacts() {
         new AsyncTask<Void, Void, List<Contact>>() {
             @Override
             protected List<Contact> doInBackground(final Void... params) {
@@ -76,9 +75,10 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
 
             @Override
             protected void onPostExecute(final List<Contact> contacts) {
-                if (!contacts.isEmpty()) {
-                    items.addAll(contacts);
-                }
+                items.clear();
+                items.addAll(contacts);
+                requestSort();
+
                 if (mListObserver != null)
                     mListObserver.onDataReloadCompleted();
             }
@@ -137,7 +137,6 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                         if (!newContacts.isEmpty()) {
                             items.addAll(newContacts);
                             requestSort();
-                            notifyDataSetChanged();
                         }
                         if (mListObserver != null)
                             mListObserver.onDataReloadCompleted();
@@ -160,7 +159,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         requestSort();
     }
 
-    public void requestSort() {
+    private void requestSort() {
         Comparator<Contact> comparator;
         switch (mSortMode) {
             case SORT_MODE_FIRST_NAME_ASCENDING:
@@ -186,7 +185,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
 
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
-                            ret = lhs.isFavorite() ? 1 : -1;
+                            ret = lhs.isFavorite() ? -1 : 1;
                         } else ret = lhs.getFirstName().compareToIgnoreCase(rhs.getFirstName());
 
                         return ret;
@@ -216,7 +215,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
 
                         final Boolean lF = lhs.isFavorite();
                         if (lF != rhs.isFavorite()) {
-                            ret = lhs.isFavorite() ? 1 : -1;
+                            ret = lhs.isFavorite() ? -1 : 1;
                         } else ret = lhs.getLastName().compareToIgnoreCase(rhs.getLastName());
 
                         return ret;

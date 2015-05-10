@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
+import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -55,6 +56,7 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_contact_detail, menu);
+        menu.findItem(R.id.action_favorite).setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled, null));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -62,6 +64,7 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
+                toggleContactFavorite(item);
                 return Boolean.TRUE;
             case R.id.action_save:
                 launchSaveContactToPhone();
@@ -69,6 +72,15 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void toggleContactFavorite(final MenuItem item) {
+        ContactManager.toggleFavorite(mContact, new Runnable() {
+            @Override
+            public void run() {
+                item.setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled, null));
+            }
+        });
     }
 
     private void launchSaveContactToPhone() {

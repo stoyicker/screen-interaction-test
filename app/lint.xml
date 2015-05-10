@@ -7,4 +7,7 @@
     <issue id="InvalidPackage">
         <ignore regexp="okio-1.3.0.jar"/>
     </issue>
+    <issue id="IconColors">
+        <ignore regexp="ic_action_star_enabled.png"/>
+    </issue>
 </lint>

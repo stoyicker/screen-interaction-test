@@ -1,5 +1,6 @@
 package com.screeninteractiontest.jorge.data.middlelayer;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
@@ -7,6 +8,7 @@ import com.screeninteractiontest.jorge.io.db.SQLiteDAO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
@@ -51,5 +53,23 @@ public final class ContactManager {
         if (contact.isFavorite() == null) {
             contact.setFavorite(Boolean.FALSE);
         }
+    }
+
+    public static void toggleFavorite(final Contact contact, final Runnable callback) {
+        new AsyncTask<Object, Void, Runnable>() {
+
+            @Override
+            protected Runnable doInBackground(final Object... params) {
+                final Contact contact = (Contact) params[0];
+                if (SQLiteDAO.getInstance().updateContactIsFavorite(contact, !contact.isFavorite()))
+                    contact.setFavorite(!contact.isFavorite());
+                return (Runnable) params[1];
+            }
+
+            @Override
+            protected void onPostExecute(final Runnable task) {
+                task.run();
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor(), contact, callback);
     }
 }

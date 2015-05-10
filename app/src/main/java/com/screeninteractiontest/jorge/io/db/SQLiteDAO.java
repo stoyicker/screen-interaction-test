@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.screeninteractiontest.jorge.BuildConfig;
 import com.screeninteractiontest.jorge.R;
@@ -102,7 +103,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
     }
 
     private ContentValues mapContactToStorable(final Contact contact) {
-        ContentValues ret = new ContentValues();
+        final ContentValues ret = new ContentValues();
         ret.put(TABLE_KEY_NAME, escapeString(contact.getName()));
         ret.put(TABLE_KEY_JOB_TITLE, escapeString(contact.getJobTitle()));
         ret.put(TABLE_KEY_EMAIL, escapeString(contact.getEmail()));
@@ -129,7 +130,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         final SQLiteDatabase db = getReadableDatabase();
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            Cursor allStorableContacts = db.query(CONTACT_TABLE_NAME, null, null, null, null, null, null);
+            final Cursor allStorableContacts = db.query(CONTACT_TABLE_NAME, null, null, null, null, null, null);
             if (allStorableContacts != null && allStorableContacts.moveToFirst()) {
                 do {
                     ret.add(mapStorableToContact(allStorableContacts));
@@ -145,16 +146,19 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return ret;
     }
 
-    public void updateContactIsFavorite(final String contactName, final Boolean newIsFavorite) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues newReadContainer = new ContentValues();
-        newReadContainer.put(TABLE_KEY_IS_FAVORITE, newIsFavorite ? 1 : 0);
+    public Boolean updateContactIsFavorite(final Contact contact, final Boolean newIsFavorite) {
+        final SQLiteDatabase db = getWritableDatabase();
+        final ContentValues newFavoriteContainer = new ContentValues();
+        newFavoriteContainer.put(TABLE_KEY_IS_FAVORITE, newIsFavorite ? 1 : 0);
+        Boolean ret;
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            db.update(CONTACT_TABLE_NAME, newReadContainer, TABLE_KEY_NAME + " = '" + contactName, null);
+            ret = db.update(CONTACT_TABLE_NAME, newFavoriteContainer, TABLE_KEY_NAME + " = ?", new String[]{escapeString(contact.getName())}) > 0;
             db.setTransactionSuccessful();
             db.endTransaction();
         }
+
+        return ret;
     }
 
     @Contract("null -> null")
