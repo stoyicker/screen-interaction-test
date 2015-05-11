@@ -136,12 +136,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_contact_list, menu);
 
-        final SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
         return super.onCreateOptionsMenu(menu);
     }
 

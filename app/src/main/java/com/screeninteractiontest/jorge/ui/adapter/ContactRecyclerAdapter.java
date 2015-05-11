@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -74,14 +75,14 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
     }
 
     public void parseLocalContacts() {
-        new AsyncTask<Void, Void, List<Contact>>() {
+        new AsyncTask<Void, Void, Collection<Contact>>() {
             @Override
-            protected List<Contact> doInBackground(final Void... params) {
+            protected Collection<Contact> doInBackground(final Void... params) {
                 return ContactManager.getAllContacts();
             }
 
             @Override
-            protected void onPostExecute(final List<Contact> contacts) {
+            protected void onPostExecute(final Collection<Contact> contacts) {
                 items.clear();
                 items.addAll(contacts);
                 requestSort();
@@ -129,14 +130,14 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
             public void success(final List<Contact> contacts, final Response response) {
                 //I am assuming that the endpoint doesn't correspond to all the contacts, but rather to new ones, and therefore I should implement the storage locally, since I can't post data. Because of this, how I consume the "API" is I download the data and, if there are any new contacts, I add them and refresh, but if there are not then I'm done.
                 //noinspection unchecked I don't want to pass them one by one as it is slower DB-wise
-                new AsyncTask<List<Contact>, Void, List<Contact>>() {
+                new AsyncTask<List<Contact>, Void, Collection<Contact>>() {
                     @Override
-                    protected List<Contact> doInBackground(final List<Contact>... params) {
+                    protected Collection<Contact> doInBackground(final List<Contact>... params) {
                         return ContactManager.insertIfProceeds(params[0]);
                     }
 
                     @Override
-                    protected void onPostExecute(final List<Contact> newContacts) {
+                    protected void onPostExecute(final Collection<Contact> newContacts) {
                         if (!newContacts.isEmpty()) {
                             items.addAll(newContacts);
                             requestSort();
