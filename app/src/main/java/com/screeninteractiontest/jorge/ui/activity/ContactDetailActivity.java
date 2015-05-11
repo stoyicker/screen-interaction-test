@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
+import com.screeninteractiontest.jorge.ui.customview.ContactFieldView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -37,6 +40,15 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
 
     @InjectView(R.id.overlay)
     TextView mOverlayView;
+
+    @InjectView(R.id.phone)
+    ContactFieldView mPhoneView;
+
+    @InjectView(R.id.email)
+    ContactFieldView mEmailView;
+
+    @InjectView(R.id.website)
+    ContactFieldView mWebpageView;
 
     @SuppressWarnings("FieldCanBeLocal") //For visibility
     private final Integer
@@ -77,6 +89,24 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         } else
             instance.load(pictureUrl).error(CONTACT_PICTURE_RES_ID_ERROR).placeholder(CONTACT_PICTURE_RES_ID_DEFAULT).tag(IMAGE_LOAD_TAG).into(mPictureView);
         mOverlayView.setText(mContact.getJobTitle());
+
+        final String phone = mContact.getPhone(), email = mContact.getEmail(), webpage = mContact.getWebpage();
+
+        if (!TextUtils.isEmpty(phone)) {
+            mPhoneView.setFieldValue(phone);
+        } else {
+            mPhoneView.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(email)) {
+            mEmailView.setFieldValue(email);
+        } else {
+            mEmailView.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(webpage)) {
+            mWebpageView.setFieldValue(webpage);
+        } else {
+            mWebpageView.setVisibility(View.GONE);
+        }
     }
 
     private void initializeActionBar() {

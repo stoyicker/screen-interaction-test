@@ -16,4 +16,7 @@
     <string name="action_save">Save as contact</string>
     <string name="action_favorite">Favorite</string>
     <string name="content_description_picture">Picture</string>
+    <string name="contact_attribute_phone">Telefon</string>
+    <string name="contact_attribute_email">E-post</string>
+    <string name="contact_attribute_website">Webbsida</string>
 </resources>

@@ -7,7 +7,8 @@
     <color name="theme_primary">@android:color/black</color>
     <color name="theme_contact_card_background">@android:color/white</color>
     <color name="theme_app_background">@android:color/black</color>
-    <color name="contact_list_title">@android:color/black</color>
-    <color name="contact_list_name">@android:color/holo_blue_dark</color>
+    <color name="theme_contact_list_title">@android:color/black</color>
+    <color name="theme_contact_list_name">@android:color/holo_blue_dark</color>
     <color name="theme_contact_picture_overlay">#60000000</color>
+    <color name="theme_splash_background">@android:color/black</color>
 </resources>

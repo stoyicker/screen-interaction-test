@@ -2,7 +2,7 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:background="@drawable/theme_splash_background"
+           android:background="@color/theme_splash_background"
            android:contentDescription="@string/content_description_splash"
            android:scaleType="centerInside"
            android:src="@drawable/splash">

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ContactFieldView">
+        <attr name="fieldType" format="string"/>
+        <attr name="fieldValue" format="string"/>
+    </declare-styleable>
+</resources>

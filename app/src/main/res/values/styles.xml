@@ -2,7 +2,6 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="homeAsUpIndicator">@android:drawable/arrow_up_float</item>
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:colorPrimary">@color/theme_primary</item>
         <item name="android:textColorPrimary">@color/theme_text_primary</item>
@@ -28,12 +27,12 @@
 
     <style name="ContactListName">
         <item name="android:textSize">@dimen/contact_list_name</item>
-        <item name="android:textColor">@color/contact_list_name</item>
+        <item name="android:textColor">@color/theme_contact_list_name</item>
     </style>
 
     <style name="ContactListTitle">
         <item name="android:textSize">@dimen/contact_title_name</item>
-        <item name="android:textColor">@color/contact_list_title</item>
+        <item name="android:textColor">@color/theme_contact_list_title</item>
     </style>
 
     <style name="ContactPictureOverlay">
