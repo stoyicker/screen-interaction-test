@@ -1,4 +1,4 @@
-package com.screeninteractiontest.jorge.ui.component;
+package com.screeninteractiontest.jorge.ui.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

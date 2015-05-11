@@ -1,4 +1,4 @@
-package com.screeninteractiontest.jorge.ui.customview;
+package com.screeninteractiontest.jorge.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,7 +27,7 @@ public final class ContactFieldView extends LinearLayout {
     public ContactFieldView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.custom_view_contact_field, this);
+        LayoutInflater.from(context).inflate(R.layout.widget_contact_field, this);
         setOrientation(VERTICAL);
         ButterKnife.inject(this);
 

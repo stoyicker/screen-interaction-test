@@ -5,7 +5,6 @@
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:colorPrimary">@color/theme_primary</item>
         <item name="android:textColorPrimary">@color/theme_text_primary</item>
-        <item name="android:background">@color/theme_app_background</item>
         <item name="android:windowBackground">@color/theme_app_background</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowEnterTransition">@transition/explode</item>
@@ -20,7 +19,6 @@
     </style>
 
     <style name="ToolbarTitle">
-        <item name="android:background">@color/theme_transparent</item>
         <item name="android:textColor">@color/theme_toolbar_title</item>
         <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
     </style>
@@ -36,12 +34,14 @@
     </style>
 
     <style name="ContactPictureOverlay">
+        <item name="android:textColor">@color/theme_standard_text</item>
         <item name="android:background">@drawable/contact_picture_overlay_background</item>
         <item name="android:textSize">@dimen/contact_picture_overlay_text</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ContactFieldType">
+        <item name="android:textColor">@color/theme_standard_text</item>
         <item name="android:padding">@dimen/contact_field_textview_padding</item>
     </style>
 

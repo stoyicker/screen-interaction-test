@@ -11,15 +11,12 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"/>
 
-    <HorizontalScrollView
+    <TextView
+        android:id="@+id/field_value"
+        style="@style/ContactFieldValue"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/field_value"
-            style="@style/ContactFieldValue"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textIsSelectable="true"/>
-    </HorizontalScrollView>
+        android:layout_height="match_parent"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textIsSelectable="true"/>
 </merge>

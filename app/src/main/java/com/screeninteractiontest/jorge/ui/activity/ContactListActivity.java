@@ -24,7 +24,7 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 import com.screeninteractiontest.jorge.ui.adapter.ContactRecyclerAdapter;
-import com.screeninteractiontest.jorge.ui.component.ChainableSwipeRefreshLayout;
+import com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout;
 import com.screeninteractiontest.jorge.ui.component.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 

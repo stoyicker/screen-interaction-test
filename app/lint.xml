@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="IconLocation">
-        <ignore path="src/main/res/drawable/splash.png"/>
+    <!-- IconLocation forces us to place the splash picture in drawable-mdpi, but this obviously means that it is missing for other configurations. -->
+    <issue id="IconDensities">
+        <ignore regexp="splash.png"/>
     </issue>
     <!-- https://github.com/square/okio/issues/58 -->
     <issue id="InvalidPackage">
         <ignore regexp="okio-1.3.0.jar"/>
     </issue>
+    <!-- Blue doesn't match the expected ActionBar icon color. -->
     <issue id="IconColors">
         <ignore regexp="ic_action_star_enabled.png"/>
     </issue>

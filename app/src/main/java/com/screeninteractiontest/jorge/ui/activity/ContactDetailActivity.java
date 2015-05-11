@@ -18,7 +18,7 @@ import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
-import com.screeninteractiontest.jorge.ui.customview.ContactFieldView;
+import com.screeninteractiontest.jorge.ui.widget.ContactFieldView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;

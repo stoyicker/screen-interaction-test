@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="theme_toolbar_title">@android:color/white</color>
-    <color name="theme_transparent">@android:color/transparent</color>
     <color name="theme_actionbar_background">@android:color/black</color>
-    <color name="theme_text_primary">@android:color/white</color>
+    <color name="theme_text_primary">@android:color/black</color>
     <color name="theme_primary">@android:color/black</color>
     <color name="theme_contact_card_background">@android:color/white</color>
     <color name="theme_app_background">@android:color/black</color>
@@ -12,4 +11,5 @@
     <color name="theme_contact_picture_overlay">#60000000</color>
     <color name="theme_splash_background">@android:color/black</color>
     <color name="theme_contact_field_value">@android:color/holo_blue_light</color>
+    <color name="theme_standard_text">@android:color/white</color>
 </resources>
