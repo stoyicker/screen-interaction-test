@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"/>
 
-    <com.screeninteractiontest.jorge.ui.widget.ListenableRippleView
+    <com.screeninteractiontest.android.ui.widget.ListenableRippleView
         android:id="@+id/field_value_ripple"
         xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -27,5 +27,5 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textIsSelectable="true"/>
-    </com.screeninteractiontest.jorge.ui.widget.ListenableRippleView>
+    </com.screeninteractiontest.android.ui.widget.ListenableRippleView>
 </merge>

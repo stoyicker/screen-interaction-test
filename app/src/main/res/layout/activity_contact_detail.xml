@@ -48,7 +48,7 @@
                     android:textIsSelectable="true"/>
             </RelativeLayout>
 
-            <com.screeninteractiontest.jorge.ui.widget.ContactFieldView
+            <com.screeninteractiontest.android.ui.widget.ContactFieldView
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:visibility="gone"
                 app:fieldType="@string/contact_attribute_phone"/>
 
-            <com.screeninteractiontest.jorge.ui.widget.ContactFieldView
+            <com.screeninteractiontest.android.ui.widget.ContactFieldView
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:visibility="gone"
                 app:fieldType="@string/contact_attribute_email"/>
 
-            <com.screeninteractiontest.jorge.ui.widget.ContactFieldView
+            <com.screeninteractiontest.android.ui.widget.ContactFieldView
                 android:id="@+id/website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

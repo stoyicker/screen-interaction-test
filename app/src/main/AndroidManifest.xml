@@ -1,5 +1,5 @@
 <manifest
-    package="com.screeninteractiontest.jorge"
+    package="com.screeninteractiontest.android"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name="com.screeninteractiontest.android.ui.activity.SplashActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="locked"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
@@ -24,17 +24,17 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ContactListActivity"
+            android:name="com.screeninteractiontest.android.ui.activity.ContactListActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:launchMode="singleTop"/>
 
         <activity
-            android:name=".ui.activity.ContactDetailActivity"
+            android:name="com.screeninteractiontest.android.ui.activity.ContactDetailActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.ContactListActivity"/>
+                android:value="com.screeninteractiontest.android.ui.activity.ContactListActivity"/>
         </activity>
     </application>
 

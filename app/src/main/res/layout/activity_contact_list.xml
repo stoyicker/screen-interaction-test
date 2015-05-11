@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout
+    <com.screeninteractiontest.android.ui.widget.ChainableSwipeRefreshLayout
         android:id="@+id/contact_list_swipeable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,5 +37,5 @@
                 style="@style/ContactListEmpty"
                 android:text="@string/list_contacts_empty"/>
         </FrameLayout>
-    </com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout>
+    </com.screeninteractiontest.android.ui.widget.ChainableSwipeRefreshLayout>
 </LinearLayout>
