@@ -19,4 +19,6 @@
     <string name="contact_attribute_phone">Telefon</string>
     <string name="contact_attribute_email">E-post</string>
     <string name="contact_attribute_website">Webbsida</string>
+    <string name="easter_egg_message">%s is a star!</string>
+    <string name="easter_egg_error_message">Congratulations, you found the easter egg! Now install Twitter and try again, it gets much better!</string>
 </resources>

@@ -8,4 +8,4 @@ Test project for Screen Interaction. Jorge Antonio Diaz-Benito Soriano.
 * The buildscript describes only the debug buildType; a specific release binary is not built as no keys were provided nor usage of ProGuard or resource shrinkage tools was mentioned in the requirements.
 * Instead of using StateDrawables, which I think is what the wireframes hint, I chose to use ripple animations as they agree current design guidelines better.
 * Supports all screen orientations.
-
+* The easter egg is in the contact detail screen. Can you find it? (less funny if you don't have Twitter installed)

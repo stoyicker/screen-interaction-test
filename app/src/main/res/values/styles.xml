@@ -34,6 +34,9 @@
     </style>
 
     <style name="ContactPictureOverlay">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
         <item name="android:textColor">@color/theme_standard_text</item>
         <item name="android:background">@drawable/contact_picture_overlay_background</item>
         <item name="android:textSize">@dimen/contact_picture_overlay_text</item>

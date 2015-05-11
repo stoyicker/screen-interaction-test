@@ -2,6 +2,8 @@ package com.screeninteractiontest.jorge.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.screeninteractiontest.jorge.R;
 import com.screeninteractiontest.jorge.data.datamodel.Contact;
@@ -22,8 +25,12 @@ import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 import com.screeninteractiontest.jorge.ui.widget.ContactFieldView;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import icepick.Icicle;
 
 /**
@@ -80,6 +87,42 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
+    }
+
+    @OnClick(R.id.picture)
+    public void iAmAStar(final View view) {
+        if (mContact.isFavorite())
+            tweetEgg();
+    }
+
+    /**
+     * Dirty way to post a tweet. However, the formal way includes setting
+     * up a rather heavy SDK, session management and the like, which is
+     * a complete overkill for an easter egg.
+     */
+    private void tweetEgg() {
+        final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
+        tweetIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.ENGLISH, mContext.getString(R.string.easter_egg_message), mContact.getFirstName()));
+        tweetIntent.setType("text/plain");
+
+        final PackageManager packManager = getPackageManager();
+        final List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        Boolean resolved = Boolean.FALSE;
+        for (ResolveInfo resolveInfo : resolvedInfoList) {
+            if (resolveInfo.activityInfo.name.contains("twitter")) {
+                tweetIntent.setClassName(
+                        resolveInfo.activityInfo.packageName,
+                        resolveInfo.activityInfo.name);
+                resolved = Boolean.TRUE;
+                break;
+            }
+        }
+        if (resolved) {
+            startActivity(tweetIntent);
+        } else {
+            Toast.makeText(this, R.string.easter_egg_error_message, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void fillFields() {
