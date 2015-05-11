@@ -11,4 +11,5 @@
     <color name="theme_contact_list_name">@android:color/holo_blue_dark</color>
     <color name="theme_contact_picture_overlay">#60000000</color>
     <color name="theme_splash_background">@android:color/black</color>
+    <color name="theme_contact_field_value">@android:color/holo_blue_light</color>
 </resources>

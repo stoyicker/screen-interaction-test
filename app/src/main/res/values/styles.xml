@@ -31,7 +31,7 @@
     </style>
 
     <style name="ContactListTitle">
-        <item name="android:textSize">@dimen/contact_title_name</item>
+        <item name="android:textSize">@dimen/contact_list_title_name</item>
         <item name="android:textColor">@color/theme_contact_list_title</item>
     </style>
 
@@ -39,5 +39,17 @@
         <item name="android:background">@drawable/contact_picture_overlay_background</item>
         <item name="android:textSize">@dimen/contact_picture_overlay_text</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ContactFieldType">
+        <item name="android:padding">@dimen/contact_field_textview_padding</item>
+    </style>
+
+    <style name="ContactFieldValue">
+        <item name="android:background">@drawable/contact_field_view_value_background</item>
+        <item name="android:lines">1</item>
+        <item name="android:padding">@dimen/contact_field_textview_padding</item>
+        <item name="android:textSize">@dimen/contact_field_value</item>
+        <item name="android:textColor">@color/theme_contact_field_value</item>
     </style>
 </resources>

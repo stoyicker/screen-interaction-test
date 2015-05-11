@@ -7,7 +7,7 @@
     <dimen name="contact_card_corner_radius">4dp</dimen>
     <dimen name="card_padding">4dp</dimen>
     <dimen name="contact_list_name">16sp</dimen>
-    <dimen name="contact_title_name">12sp</dimen>
+    <dimen name="contact_list_title_name">12sp</dimen>
     <dimen name="contact_list_image_margin">4dp</dimen>
     <dimen name="contact_picture_overlay_text">16sp</dimen>
     <dimen name="contact_picture_overlay_padding">8dp</dimen>
@@ -15,4 +15,6 @@
     <dimen name="rounded_corner_background_radius">8dp</dimen>
     <dimen name="contact_detail_picture_bottom_margin">64dp</dimen>
     <dimen name="contact_field_margin">32dp</dimen>
+    <dimen name="contact_field_value">20sp</dimen>
+    <dimen name="contact_field_textview_padding">8dp</dimen>
 </resources>
