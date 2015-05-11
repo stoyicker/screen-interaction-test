@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/theme_contact_picture_overlay"/>
-    <corners android:radius="@dimen/contact_picture_overlay_background_radius"/>
+    <corners android:radius="@dimen/rounded_corner_background_radius"/>
 </shape>

@@ -12,7 +12,7 @@
     <dimen name="contact_picture_overlay_text">16sp</dimen>
     <dimen name="contact_picture_overlay_padding">8dp</dimen>
     <dimen name="contact_picture_overlay">12dp</dimen>
-    <dimen name="contact_picture_overlay_background_radius">8dp</dimen>
+    <dimen name="rounded_corner_background_radius">8dp</dimen>
     <dimen name="contact_detail_picture_bottom_margin">64dp</dimen>
     <dimen name="contact_field_margin">32dp</dimen>
 </resources>
