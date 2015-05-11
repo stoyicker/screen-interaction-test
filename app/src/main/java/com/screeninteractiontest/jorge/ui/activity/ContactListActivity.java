@@ -1,12 +1,10 @@
 package com.screeninteractiontest.jorge.ui.activity;
 
 import android.app.ActivityOptions;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.screeninteractiontest.jorge.R;
@@ -78,7 +75,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         mContactList.setLayoutManager(new LinearLayoutManager(mContext));
         mContactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
         mContactAdapter.setOnContactClickListener(this);
-        updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();
         Integer actionBarHeight = -1;
         if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {

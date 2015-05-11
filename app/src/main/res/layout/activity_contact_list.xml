@@ -34,6 +34,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
+                style="@style/ContactListEmpty"
                 android:text="@string/list_contacts_empty"/>
         </FrameLayout>
     </com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout>

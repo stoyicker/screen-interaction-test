@@ -37,14 +37,14 @@
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
-        <item name="android:textColor">@color/theme_standard_text</item>
+        <item name="android:textColor">@color/theme_text_standard</item>
         <item name="android:background">@drawable/contact_picture_overlay_background</item>
         <item name="android:textSize">@dimen/contact_picture_overlay_text</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ContactFieldType">
-        <item name="android:textColor">@color/theme_standard_text</item>
+        <item name="android:textColor">@color/theme_text_standard</item>
         <item name="android:padding">@dimen/contact_field_textview_padding</item>
     </style>
 
@@ -54,5 +54,9 @@
         <item name="android:padding">@dimen/contact_field_textview_padding</item>
         <item name="android:textSize">@dimen/contact_field_value</item>
         <item name="android:textColor">@color/theme_contact_field_value</item>
+    </style>
+
+    <style name="ContactListEmpty">
+        <item name="android:textColor">@color/theme_text_standard</item>
     </style>
 </resources>

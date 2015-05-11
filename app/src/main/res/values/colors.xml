@@ -11,6 +11,6 @@
     <color name="theme_contact_picture_overlay">#60000000</color>
     <color name="theme_splash_background">@android:color/black</color>
     <color name="theme_contact_field_value">@android:color/holo_blue_light</color>
-    <color name="theme_standard_text">@android:color/white</color>
+    <color name="theme_text_standard">@android:color/white</color>
     <color name="theme_ripple_dark">@android:color/black</color>
 </resources>
