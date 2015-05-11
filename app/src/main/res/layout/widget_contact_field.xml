@@ -16,14 +16,15 @@
         xmlns:ripple="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ripple:rv_type="rectangle">
+        ripple:rv_rippleDuration="@integer/default_ripple_duration_millis"
+        ripple:rv_type="simpleRipple">
 
         <TextView
             android:id="@+id/field_value"
             style="@style/ContactFieldValue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:ellipsize="marquee"
+            android:ellipsize="end"
             android:singleLine="true"
             android:textIsSelectable="true"/>
     </com.screeninteractiontest.jorge.ui.widget.ListenableRippleView>

@@ -22,10 +22,10 @@ import retrofit.mime.TypedInput;
 public abstract class ContactApiClient {
 
     private static final Object LOCK = new Object();
-    private static ContactApiInterface apiService;
+    private static IContactApi apiService;
 
-    public static ContactApiInterface getContactApiClient(final Context context) {
-        ContactApiInterface ret = apiService;
+    public static IContactApi getContactApiClient(final Context context) {
+        IContactApi ret = apiService;
         if (ret == null)
             synchronized (LOCK) {
                 ret = apiService;
@@ -37,7 +37,7 @@ public abstract class ContactApiClient {
                                     return super.fromBody(body, type);
                                 }
                             }).build();
-                    ret = restAdapter.create(ContactApiInterface.class);
+                    ret = restAdapter.create(IContactApi.class);
                     apiService = ret;
                 }
             }
@@ -45,7 +45,7 @@ public abstract class ContactApiClient {
         return ret;
     }
 
-    public interface ContactApiInterface {
+    public interface IContactApi {
 
         @GET("/worksample-android/contacts.json")
         void getContacts(final Callback<List<Contact>> callback);

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="activity_start_delay_millis">100</integer>
+    <integer name="default_ripple_duration_millis">150</integer>
 </resources>

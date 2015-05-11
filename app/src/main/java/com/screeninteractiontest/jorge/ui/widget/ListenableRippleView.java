@@ -38,6 +38,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ListView;
@@ -85,7 +86,7 @@ public final class ListenableRippleView extends RelativeLayout {
         }
     };
 
-    private OnRippleCompleteListener onCompletionListener;
+    private IRippleComplete onCompletionListener;
 
     public ListenableRippleView(Context context) {
         super(context);
@@ -284,11 +285,13 @@ public final class ListenableRippleView extends RelativeLayout {
         return output;
     }
 
-    public void setOnRippleCompleteListener(final OnRippleCompleteListener listener) {
+    public void setOnRippleCompleteListener(final IRippleComplete listener) {
         this.onCompletionListener = listener;
     }
 
-    public interface OnRippleCompleteListener {
+
+
+    public interface IRippleComplete {
 
         void onComplete(final ListenableRippleView rippleView);
     }

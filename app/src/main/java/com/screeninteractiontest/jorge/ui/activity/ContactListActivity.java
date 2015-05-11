@@ -23,7 +23,6 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 import com.screeninteractiontest.jorge.ui.adapter.ContactRecyclerAdapter;
-import com.screeninteractiontest.jorge.ui.component.RecyclerItemClickListener;
 import com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +32,7 @@ import butterknife.InjectView;
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class ContactListActivity extends IcedAppCompatActivity implements ContactRecyclerAdapter.IListObserver {
+public final class ContactListActivity extends IcedAppCompatActivity implements ContactRecyclerAdapter.IListObserver, ContactRecyclerAdapter.IContactClickListener {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolbar;
@@ -75,6 +74,7 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         mContactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
         mContactList.setLayoutManager(new LinearLayoutManager(mContext));
         mContactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
+        mContactAdapter.setOnContactClickListener(this);
         updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();
         Integer actionBarHeight = -1;
@@ -93,12 +93,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
                 mContactAdapter.requestDataLoad();
             }
         });
-        mContactList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(final View childView, final int position) {
-                ContactListActivity.this.launchContactDetail(mContactAdapter.getContact(position));
-            }
-        }));
         mContactListSwipeToRefreshLayout.setRecyclerView(mContactList);
     }
 
@@ -201,5 +195,10 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     public void onStop() {
         Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
         super.onStop();
+    }
+
+    @Override
+    public void onContactClick(final Contact contact) {
+        launchContactDetail(contact);
     }
 }

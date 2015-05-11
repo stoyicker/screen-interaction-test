@@ -16,6 +16,7 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.data.middlelayer.ContactManager;
 import com.screeninteractiontest.jorge.io.api.ContactApiClient;
 import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
+import com.screeninteractiontest.jorge.ui.widget.ListenableRippleView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,6 +36,12 @@ import retrofit.client.Response;
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.ViewHolder> {
+
+    private IContactClickListener mContactClickListener;
+
+    public void setOnContactClickListener(final IContactClickListener listener) {
+        mContactClickListener = listener;
+    }
 
     public enum SORT_MODE {
         SORT_MODE_FIRST_NAME_DESCENDING,
@@ -85,14 +92,10 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
-    public Contact getContact(final int position) {
-        return items.get(position);
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout
-                .list_item_contact, parent, Boolean.FALSE));
+                .list_item_contact, parent, Boolean.FALSE), mContactClickListener);
     }
 
     @Override
@@ -236,7 +239,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         void onDataReloadErrored();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.thumbnail)
         ImageView photoView;
 
@@ -249,9 +252,24 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         @InjectView(R.id.favorite)
         View favoriteView;
 
-        public ViewHolder(final View itemView) {
+        @InjectView(R.id.ripple_wrapper)
+        ListenableRippleView mRippleWrapper;
+
+        private ViewHolder(final View itemView, final IContactClickListener contactClickListener) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+
+            mRippleWrapper.setOnRippleCompleteListener(new ListenableRippleView.IRippleComplete() {
+                @Override
+                public void onComplete(final ListenableRippleView rippleView) {
+                    if (contactClickListener != null)
+                        contactClickListener.onContactClick(items.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+
+    public interface IContactClickListener {
+        void onContactClick(final Contact contact);
     }
 }

@@ -61,7 +61,7 @@ public final class ContactFieldView extends LinearLayout {
         if (!TextUtils.isEmpty(fieldValue))
             mFieldValueView.setText(fieldValue);
 
-        mFieldValueRippleView.setOnRippleCompleteListener(new ListenableRippleView.OnRippleCompleteListener() {
+        mFieldValueRippleView.setOnRippleCompleteListener(new ListenableRippleView.IRippleComplete() {
             @Override
             public void onComplete(final ListenableRippleView rippleView) {
                 ContactFieldView.this.onRippleEnd(ContactFieldView.this);
