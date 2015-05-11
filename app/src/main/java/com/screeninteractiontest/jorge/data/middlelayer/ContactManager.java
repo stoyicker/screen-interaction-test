@@ -7,6 +7,7 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.db.SQLiteDAO;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -19,7 +20,7 @@ public final class ContactManager {
         throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());
     }
 
-    public static List<Contact> getAllContacts() {
+    public static Collection<Contact> getAllContacts() {
         return SQLiteDAO.getInstance().getAllContacts();
     }
 
@@ -29,11 +30,11 @@ public final class ContactManager {
      * assumption that the endpoint can only have data added and not removed or
      * edited.
      *
-     * @param contacts {@link List<Contact>} The list contacts to attempt to insert.
-     * @return {@link List<Contact>} The ones actually inserted.
+     * @param contacts {@link Collection<Contact>} The list contacts to attempt to insert.
+     * @return {@link Collection<Contact>} The ones actually inserted.
      */
-    public static List<Contact> insertIfProceeds(final List<Contact> contacts) {
-        final List<Contact> actualInsertions = new ArrayList<>();
+    public static Collection<Contact> insertIfProceeds(final List<Contact> contacts) {
+        final Collection<Contact> actualInsertions = new ArrayList<>();
 
         for (Contact x : contacts) {
             sanitizeContact(x);

@@ -17,6 +17,7 @@ import com.screeninteractiontest.jorge.ui.UIUtils;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public final class SQLiteDAO extends RobustSQLiteOpenHelper {
@@ -125,8 +126,8 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
                         .FALSE : Boolean.TRUE);
     }
 
-    public List<Contact> getAllContacts() {
-        final List<Contact> ret = new ArrayList<>();
+    public Collection<Contact> getAllContacts() {
+        final Collection<Contact> ret = new ArrayList<>();
         final SQLiteDatabase db = getReadableDatabase();
         synchronized (DB_LOCK) {
             db.beginTransaction();
