@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
     <include
-        layout="@layout/include_toolbar"
+        layout="@layout/widget_app_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -55,6 +55,7 @@
                 android:layout_marginBottom="@dimen/contact_field_margin"
                 android:layout_marginEnd="@dimen/contact_field_margin"
                 android:layout_marginStart="@dimen/contact_field_margin"
+                android:visibility="gone"
                 app:fieldType="@string/contact_attribute_phone"/>
 
             <com.screeninteractiontest.jorge.ui.widget.ContactFieldView
@@ -64,6 +65,7 @@
                 android:layout_marginBottom="@dimen/contact_field_margin"
                 android:layout_marginEnd="@dimen/contact_field_margin"
                 android:layout_marginStart="@dimen/contact_field_margin"
+                android:visibility="gone"
                 app:fieldType="@string/contact_attribute_email"/>
 
             <com.screeninteractiontest.jorge.ui.widget.ContactFieldView
@@ -73,6 +75,7 @@
                 android:layout_marginBottom="@dimen/contact_field_margin"
                 android:layout_marginEnd="@dimen/contact_field_margin"
                 android:layout_marginStart="@dimen/contact_field_margin"
+                android:visibility="gone"
                 app:fieldType="@string/contact_attribute_website"/>
         </LinearLayout>
     </ScrollView>

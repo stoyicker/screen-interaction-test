@@ -20,7 +20,7 @@
 
     <style name="ToolbarTitle">
         <item name="android:textColor">@color/theme_toolbar_title</item>
-        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+        <item name="android:textSize">@dimen/theme_toolbar_title</item>
     </style>
 
     <style name="ContactListName">
@@ -52,4 +52,6 @@
         <item name="android:textSize">@dimen/contact_field_value</item>
         <item name="android:textColor">@color/theme_contact_field_value</item>
     </style>
+
+    <dimen name="theme_toolbar_title">20sp</dimen>
 </resources>

@@ -5,7 +5,7 @@
               android:orientation="vertical">
 
     <include
-        layout="@layout/include_toolbar"
+        layout="@layout/widget_app_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

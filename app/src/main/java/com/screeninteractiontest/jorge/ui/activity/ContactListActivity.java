@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -24,8 +23,8 @@ import com.screeninteractiontest.jorge.data.datamodel.Contact;
 import com.screeninteractiontest.jorge.io.prefs.PreferenceAssistant;
 import com.screeninteractiontest.jorge.ui.activity.base.IcedAppCompatActivity;
 import com.screeninteractiontest.jorge.ui.adapter.ContactRecyclerAdapter;
-import com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout;
 import com.screeninteractiontest.jorge.ui.component.RecyclerItemClickListener;
+import com.screeninteractiontest.jorge.ui.widget.ChainableSwipeRefreshLayout;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -75,7 +74,6 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
     private void initializeContactList() {
         mContactListSwipeToRefreshLayout.setColorSchemeColors(R.color.theme_primary, R.color.theme_text_primary);
         mContactList.setLayoutManager(new LinearLayoutManager(mContext));
-        mContactList.setItemAnimator(new DefaultItemAnimator());
         mContactList.setAdapter(mContactAdapter = new ContactRecyclerAdapter(mContext, this, IMAGE_LOAD_TAG, PreferenceAssistant.readSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, 0)));
         updateEmptyViewVisibility();
         final TypedValue tv = new TypedValue();

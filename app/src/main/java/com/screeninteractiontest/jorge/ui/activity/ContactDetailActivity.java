@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -93,20 +94,47 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         final String phone = mContact.getPhone(), email = mContact.getEmail(), webpage = mContact.getWebpage();
 
         if (!TextUtils.isEmpty(phone)) {
+            mPhoneView.setVisibility(View.VISIBLE);
             mPhoneView.setFieldValue(phone);
-        } else {
-            mPhoneView.setVisibility(View.GONE);
+            mPhoneView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactDetailActivity.this.launchCallPhone();
+                }
+            });
         }
         if (!TextUtils.isEmpty(email)) {
+            mEmailView.setVisibility(View.VISIBLE);
             mEmailView.setFieldValue(email);
-        } else {
-            mEmailView.setVisibility(View.GONE);
+            mEmailView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactDetailActivity.this.launchSendEmail();
+                }
+            });
         }
         if (!TextUtils.isEmpty(webpage)) {
+            mWebpageView.setVisibility(View.VISIBLE);
             mWebpageView.setFieldValue(webpage);
-        } else {
-            mWebpageView.setVisibility(View.GONE);
+            mWebpageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ContactDetailActivity.this.launchBrowseWebpage();
+                }
+            });
         }
+    }
+
+    private void launchCallPhone() {
+        Log.d("debug", "Calling phone!");
+    }
+
+    private void launchSendEmail() {
+        Log.d("debug", "Sending e-mail!");
+    }
+
+    private void launchBrowseWebpage() {
+        Log.d("debug", "Browsing webpage!");
     }
 
     private void initializeActionBar() {

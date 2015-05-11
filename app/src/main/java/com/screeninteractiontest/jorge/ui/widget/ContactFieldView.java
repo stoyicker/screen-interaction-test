@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,11 @@ public final class ContactFieldView extends LinearLayout {
 
     @InjectView(R.id.field_value)
     TextView mFieldValueView;
+
+    @InjectView(R.id.field_value_ripple)
+    ListenableRippleView mFieldValueRippleView;
+
+    private OnClickListener mOnClickListener;
 
     public ContactFieldView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -54,11 +60,27 @@ public final class ContactFieldView extends LinearLayout {
 
         if (!TextUtils.isEmpty(fieldValue))
             mFieldValueView.setText(fieldValue);
+
+        mFieldValueRippleView.setOnRippleCompleteListener(new ListenableRippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(final ListenableRippleView rippleView) {
+                ContactFieldView.this.onRippleEnd(ContactFieldView.this);
+            }
+        });
     }
 
     public void setFieldValue(final String mFieldValue) {
         this.mFieldValueView.setText(mFieldValue);
         invalidate();
         requestLayout();
+    }
+
+    private void onRippleEnd(final View v) {
+        if (mOnClickListener != null)
+            mOnClickListener.onClick(v);
+    }
+
+    public void setOnClickListener(final OnClickListener mOnClickListener) {
+        this.mOnClickListener = mOnClickListener;
     }
 }

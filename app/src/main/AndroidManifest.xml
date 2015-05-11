@@ -15,6 +15,7 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:launchMode="singleInstance"
+            android:screenOrientation="locked"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,6 +30,7 @@
 
         <activity
             android:name=".ui.activity.ContactDetailActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"
             android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
