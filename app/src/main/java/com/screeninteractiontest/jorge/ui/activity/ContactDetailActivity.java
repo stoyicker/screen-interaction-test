@@ -2,12 +2,12 @@ package com.screeninteractiontest.jorge.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -125,16 +125,27 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         }
     }
 
+    /**
+     * Shows the dialer with the phone number ready. It is a better approach
+     * than commencing the call straightaway ({@link Intent#ACTION_CALL} can
+     * be used instead if this is a must).
+     */
     private void launchCallPhone() {
-        Log.d("debug", "Calling phone!");
+        final Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + mContact.getPhone()));
+        startActivity(intent);
     }
 
     private void launchSendEmail() {
-        Log.d("debug", "Sending e-mail!");
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, mContact.getEmail());
+        startActivity(intent);
     }
 
     private void launchBrowseWebpage() {
-        Log.d("debug", "Browsing webpage!");
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebpage()));
+        startActivity(intent);
     }
 
     private void initializeActionBar() {
