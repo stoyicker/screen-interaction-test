@@ -52,6 +52,4 @@
         <item name="android:textSize">@dimen/contact_field_value</item>
         <item name="android:textColor">@color/theme_contact_field_value</item>
     </style>
-
-    <dimen name="theme_toolbar_title">20sp</dimen>
 </resources>

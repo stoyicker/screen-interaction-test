@@ -17,4 +17,5 @@
     <dimen name="contact_field_margin">32dp</dimen>
     <dimen name="contact_field_value">20sp</dimen>
     <dimen name="contact_field_textview_padding">8dp</dimen>
+    <dimen name="theme_toolbar_title">20sp</dimen>
 </resources>
