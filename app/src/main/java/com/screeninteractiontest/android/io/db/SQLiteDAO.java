@@ -18,6 +18,11 @@ import org.jetbrains.annotations.Contract;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * DAO. It enforces all database operations to be performed on a background thread.
+ *
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
+ */
 public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
@@ -33,11 +38,26 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
     private static Context mContext;
     private static SQLiteDAO singleton;
 
+    /**
+     * Standard constructor.
+     *
+     * @param _context {@link Context} Context.
+     */
     private SQLiteDAO(@NonNull Context _context) {
         super(_context, _context.getString(R.string.database_name), null, BuildConfig.VERSION_CODE);
         mContext = _context;
     }
 
+    /**
+     * Initialization method. It takes care of constructing the singleton and calling it more
+     * than once will have no effect. It must be invoked prior to any calls to {@link SQLiteDAO#getInstance()}
+     * as the later does not have the ability to instantiate the singleton. The reason for this
+     * is that constructing the database object requires a context which, if set as a parameter
+     * in {@link SQLiteDAO#getInstance()}, would get passed around every time a database
+     * operation needs to be performed, but would only be used the first time.
+     *
+     * @param _context {@link Context} Context
+     */
     public synchronized static void setup(@NonNull final Context _context) {
         if (singleton == null) {
             singleton = new SQLiteDAO(_context);
@@ -45,6 +65,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
     }
 
+    /**
+     * Retrieves the singleton instance
+     *
+     * @return {@link SQLiteDAO} The singleton instance to use when performing database operations
+     * @see SQLiteDAO#setup(Context)
+     */
     public synchronized static SQLiteDAO getInstance() {
         if (UIUtils.isMainThread()) {
             throw new DatabaseOnMainThreadException(mContext);
@@ -54,12 +80,18 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return singleton;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRobustUpgrade(final SQLiteDatabase db, final int oldVersion,
                                 final int newVersion) throws SQLiteException {
         //For now unused as there is no older version from the database yet
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(final SQLiteDatabase db) {
         super.onCreate(db);
@@ -85,6 +117,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
     }
 
+    /**
+     * Stores a contact into the database
+     *
+     * @param contact {@link Contact} The contact to store
+     * @return {@link Boolean} The success of the operation
+     */
     public Boolean insertContact(@NonNull final Contact contact) {
         final SQLiteDatabase db = getWritableDatabase();
         final ContentValues storableContact = mapContactToStorable(contact);
@@ -101,6 +139,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return inserted;
     }
 
+    /**
+     * Parses the information of a contact into a database-supported type
+     *
+     * @param contact {@link Contact} The contact whose information must be parsed
+     * @return {@link ContentValues} The database-supported container for the parsed information
+     */
     private ContentValues mapContactToStorable(final Contact contact) {
         final ContentValues ret = new ContentValues();
         ret.put(TABLE_KEY_NAME, escapeString(contact.getName()));
@@ -114,6 +158,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return ret;
     }
 
+    /**
+     * Converts the result of a database query into a contact
+     *
+     * @param contactCursor {@link Cursor} The cursor pointing to the data queried
+     * @return {@link Contact} The contact created
+     */
     private Contact mapStorableToContact(final Cursor contactCursor) {
         return new Contact(unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_NAME))),
                 unescapeString(contactCursor.getString(contactCursor.getColumnIndex(TABLE_KEY_JOB_TITLE))),
@@ -124,6 +174,11 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
                         .FALSE : Boolean.TRUE);
     }
 
+    /**
+     * Retrieves all contacts in the database
+     *
+     * @return {@link Collection<Contact>} The contacts in the database
+     */
     public Collection<Contact> getAllContacts() {
         final Collection<Contact> ret = new ArrayList<>();
         final SQLiteDatabase db = getReadableDatabase();
@@ -145,6 +200,14 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return ret;
     }
 
+    /**
+     * Sets the "favoriteness" of a contact in the database
+     *
+     * @param contact       {@link Contact} The contact whose "favoriteness" must be set
+     * @param newIsFavorite {@link Boolean} <value>Boolean.TRUE</value> if the contact should be
+     *                      set to favorite; <value>Boolean.FALSE otherwise</value>
+     * @return {@link Boolean} The success of the operation
+     */
     public Boolean updateContactIsFavorite(final Contact contact, final Boolean newIsFavorite) {
         final SQLiteDatabase db = getWritableDatabase();
         final ContentValues newFavoriteContainer = new ContentValues();
@@ -160,6 +223,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return ret;
     }
 
+    /**
+     * Escapes a string.
+     *
+     * @param input {@link String} The string to escape.
+     * @return {@link String} The escaped string.
+     */
     @Contract("null -> null")
     private String escapeString(final String input) {
         if (input == null)
@@ -173,7 +242,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
      *
      * @param output {@link String} The string to unescape. It is assumed to be
      *               escaped. Otherwise unexpected behavior may occur.
-     * @return {@link String} The escaped string.
+     * @return {@link String} The unescaped string.
      */
     @Contract("null -> null")
     private String unescapeString(final String output) {
@@ -183,6 +252,10 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return output.substring(1, output.length() - 1);
     }
 
+    /**
+     * Simple exception used on {@link SQLiteDAO#getInstance()} to avoid execution of database
+     * operations on the UI thread.
+     */
     private static class DatabaseOnMainThreadException extends RuntimeException {
 
         private DatabaseOnMainThreadException(final Context context) {

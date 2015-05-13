@@ -14,15 +14,10 @@ import java.util.concurrent.Executors;
 /**
  * This class acts as a middle layer between the DAO and the adapter logic to ensure that the
  * state of the runtime objects matches the information in the database at all times.
- * It is static as no information is stored nor instantiation is required.
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class ContactManager {
-
-    private ContactManager() {
-        throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());
-    }
+public abstract class ContactManager {
 
     /**
      * Retrieves all contacts in the database.

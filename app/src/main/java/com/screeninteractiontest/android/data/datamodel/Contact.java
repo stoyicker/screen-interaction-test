@@ -100,8 +100,9 @@ public final class Contact implements Parcelable {
      */
     public String getLastName() {
         final String[] parts = name.trim().split(" ");
-        //The check below is not going to happen in the mockup but, in a real project, it would
-        // be good to validate the operation
+        /** The check below is not going to happen in the mockup but, in a real project, it would
+         *  be good to validate the operation
+         */
         if (parts.length == 1)
             return parts[0];
 
