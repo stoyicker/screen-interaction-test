@@ -15,12 +15,20 @@ import java.util.concurrent.Executors;
 
 import icepick.Icicle;
 
+/**
+ * Shows the splash screen.
+ *
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
+ */
 public final class SplashActivity extends IcedActivity {
 
     private static final Long SPLASH_DURATION_MILLIS = 2000L;
     @Icicle
     private Boolean isTimerStarted = Boolean.FALSE;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,28 +39,41 @@ public final class SplashActivity extends IcedActivity {
         initDatabase(context);
     }
 
+    /**
+     * Initializes the database
+     *
+     * @param context {@link Context} Context
+     */
     private void initDatabase(Context context) {
         SQLiteDAO.setup(context);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected synchronized void onResume() {
         super.onResume();
         final Context appContext = getApplicationContext();
-
         /**
-         * In a real setup I would probably use this screen to download some information (and of
-         * course not using an anonymous AsyncTask for that) like the contacts, but from the
-         * wireframe I understand that the download must happen in the list screen while I show a
-         * circular loading progressbar, so I'm using this activity just as a dummy to show the
-         * splash screen */
+         * In a real setup I would probably use this screen to download some information like the
+         * contacts, but from the wireframe I understand that the download must happen in the list
+         * screen, so I'm using this activity just as a dummy to show the splash screen
+         */
         if (!isTimerStarted) {
             new AsyncTask<Void, Void, Void>() {
+
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 protected void onPreExecute() {
                     isTimerStarted = Boolean.TRUE;
                 }
 
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 protected Void doInBackground(final Void... params) {
                     try {
@@ -64,6 +85,9 @@ public final class SplashActivity extends IcedActivity {
                     return null;
                 }
 
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 protected void onPostExecute(final Void aVoid) {
                     SplashActivity.this.start(appContext);
@@ -72,6 +96,11 @@ public final class SplashActivity extends IcedActivity {
         }
     }
 
+    /**
+     * Shows the list of contacts
+     *
+     * @param context {@link Context} Context
+     */
     private void start(final Context context) {
         final Intent intent = new Intent(context, ContactListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

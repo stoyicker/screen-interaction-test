@@ -93,8 +93,8 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
+        super.onDestroy();
     }
 
     /**
@@ -210,7 +210,7 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     }
 
     /**
-     * Initializes the toolbar.
+     * Initializes the ActionBar.
      */
     private void initializeActionBar() {
         setSupportActionBar(mToolbar);
@@ -229,7 +229,7 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_contact_detail, menu);
-        menu.findItem(R.id.action_favorite).setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled));
+        menu.findItem(R.id.action_favorite).setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled, null));
         return super.onCreateOptionsMenu(menu);
     }
 

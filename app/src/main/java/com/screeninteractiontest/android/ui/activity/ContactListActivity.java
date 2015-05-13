@@ -30,6 +30,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
+ * Displays the contact list.
+ *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public final class ContactListActivity extends IcedAppCompatActivity implements ContactRecyclerAdapter.IListObserver, ContactRecyclerAdapter.IContactClickListener {
@@ -52,6 +54,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
 
     private static final String IMAGE_LOAD_TAG = ContactListActivity.class.getCanonicalName();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         initializeContactList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -95,12 +103,18 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         mContactListSwipeToRefreshLayout.setRecyclerView(mContactList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onResume() {
         super.onResume();
         mContactAdapter.parseLocalContacts();
     }
 
+    /**
+     * Launches the detailed view of a contact
+     */
     private void launchContactDetail(final Contact contact) {
         final Intent intent = new Intent(mContext, ContactDetailActivity.class);
         final Bundle extras = new Bundle();
@@ -110,6 +124,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
+    /**
+     * Verifies if there are any contacts to show and updates the view accordingly
+     */
     private void updateEmptyViewVisibility() {
         if (mContactAdapter.getItemCount() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -118,6 +135,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         }
     }
 
+    /**
+     * Initializes the ActionBar
+     */
     private void initializeActionBar() {
         setSupportActionBar(mToolbar);
 
@@ -127,6 +147,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         final MenuInflater inflater = getMenuInflater();
@@ -135,6 +158,9 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
@@ -147,10 +173,18 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         }
     }
 
+    /**
+     * Shows the dropdown menu with the sort options.
+     *
+     * @param sourceView {@link View} The view from which the dropdown should be anchored
+     */
     private void showSortModes(@NonNull final View sourceView) {
         final PopupMenu popupMenu = new PopupMenu(this, sourceView);
         popupMenu.inflate(R.menu.popup_sort_modes);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public boolean onMenuItemClick(final MenuItem item) {
                 ContactRecyclerAdapter.SORT_MODE newSortMode;
@@ -179,24 +213,36 @@ public final class ContactListActivity extends IcedAppCompatActivity implements 
         popupMenu.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onDataReloadCompleted() {
         mContactListSwipeToRefreshLayout.setRefreshing(Boolean.FALSE);
         updateEmptyViewVisibility();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onDataReloadErrored() {
         mContactListSwipeToRefreshLayout.setRefreshing(Boolean.FALSE);
         Toast.makeText(mContext, R.string.error_contact_info_download, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onStop() {
         Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
         super.onStop();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onContactClick(final Contact contact) {
         launchContactDetail(contact);
