@@ -34,6 +34,8 @@ import butterknife.OnClick;
 import icepick.Icicle;
 
 /**
+ * Displays the details of a contact.
+ *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public final class ContactDetailActivity extends IcedAppCompatActivity {
@@ -69,6 +71,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
 
     private Context mContext;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,14 +88,20 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Picasso.with(mContext).cancelTag(IMAGE_LOAD_TAG);
     }
 
+    /**
+     * @see ContactDetailActivity#tweetEgg()
+     */
     @OnClick(R.id.picture)
-    @SuppressWarnings("unused") //Butter Knife uses it
+    @SuppressWarnings("unused") //Butter Knife uses it through reflection
     public void iAmAStar(final View view) {
         if (mContact.isFavorite())
             tweetEgg();
@@ -126,6 +137,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         }
     }
 
+    /**
+     * Populates the fields in the activity with the details of the contact
+     */
     private void fillFields() {
         final String pictureUrl = mContact.getPictureUrl();
         final Picasso instance = Picasso.with(mContext);
@@ -170,9 +184,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     }
 
     /**
-     * Shows the dialer with the phone number ready. In most cases it is a better approach than
-     * commencing the call straightaway ({@link Intent#ACTION_CALL} cans be used instead with the
-     * CALL_PHONE permission if this is a must).
+     * Launches an intent to show the dialer with the phone number ready. In most cases it is a
+     * better approach than commencing the call straightaway ({@link Intent#ACTION_CALL} can be
+     * used instead with the CALL_PHONE permission if this is a must).
      */
     private void launchCallPhone() {
         final Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -187,11 +201,17 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Launches an intent to browse to the contact's webpage.
+     */
     private void launchBrowseWebpage() {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mContact.getWebpage()));
         startActivity(intent);
     }
 
+    /**
+     * Initializes the toolbar.
+     */
     private void initializeActionBar() {
         setSupportActionBar(mToolbar);
 
@@ -202,6 +222,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         final MenuInflater inflater = getMenuInflater();
@@ -210,6 +233,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
@@ -224,15 +250,21 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
         }
     }
 
+    /**
+     * Requests a contact "favoriteness" to be toggled. Updates the UI accordingly.
+     */
     private void toggleContactFavorite(final MenuItem item) {
         ContactManager.toggleFavorite(mContact, new Runnable() {
             @Override
             public void run() {
-                item.setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled));
+                item.setIcon(getResources().getDrawable(mContact.isFavorite() ? R.drawable.ic_action_star_enabled : R.drawable.ic_action_star_disabled, null));
             }
         });
     }
 
+    /**
+     * Launches an intent to save the contact to the phone.
+     */
     private void launchSaveContactToPhone() {
         final Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);

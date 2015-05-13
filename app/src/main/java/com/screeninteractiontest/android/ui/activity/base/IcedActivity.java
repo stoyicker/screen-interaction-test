@@ -7,19 +7,26 @@ import android.support.annotation.NonNull;
 import icepick.Icepick;
 
 /**
- * Base class that generates boilerplate for state handling on configuration change.
- * The splash activity requires using a non-compat theme, which means that it needs a non-appcompat version of IcedAppCompatActivity.
+ * Base class that generates boilerplate code for saving data upon configuration changes. The splash
+ * activity shall use a non-compat theme, which means that it needs a non-appcompat version
+ * of IcedAppCompatActivity.
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public abstract class IcedActivity extends Activity {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onSaveInstanceState(final @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
