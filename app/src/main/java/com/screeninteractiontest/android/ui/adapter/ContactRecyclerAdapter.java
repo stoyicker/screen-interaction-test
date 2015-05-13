@@ -34,6 +34,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Adapter for the contact list.
+ *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRecyclerAdapter.ViewHolder> {
@@ -63,6 +65,15 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
     private static String IMAGE_LOAD_TAG;
     private final IListObserver mListObserver;
 
+    /**
+     * Standard constructor. It triggers a sort.
+     *
+     * @param context      {@link Context} Context
+     * @param listObserver {@link com.screeninteractiontest.android.ui.adapter
+     *                     .ContactRecyclerAdapter.IListObserver} Observer for data load completion
+     * @param imageLoadTag {@link String} Tag for Picasso image loading
+     * @param sortMode     {@link Integer} Sort mode
+     */
     public ContactRecyclerAdapter(final Context context, final IListObserver listObserver, final String imageLoadTag, final Integer sortMode) {
         final SORT_MODE[] sortModeValues = SORT_MODE.values();
         if (sortMode < 0 || sortMode >= sortModeValues.length) {
@@ -74,13 +85,22 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         setSortMode(sortModeValues[sortMode]);
     }
 
+    /**
+     * Fills the adapter with the locally stored contacts.
+     */
     public void parseLocalContacts() {
         new AsyncTask<Void, Void, Collection<Contact>>() {
+            /**
+             * {@inheritDoc}
+             */
             @Override
             protected Collection<Contact> doInBackground(final Void... params) {
                 return ContactManager.getAllContacts();
             }
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             protected void onPostExecute(final Collection<Contact> contacts) {
                 items.clear();
@@ -93,12 +113,18 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout
                 .list_item_contact, parent, Boolean.FALSE), mContactClickListener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Contact item = getItem(position);
@@ -115,27 +141,55 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         }
     }
 
+    /**
+     * Retrieves a contact based on its position on the adapter
+     *
+     * @param position {@link Integer} The index to fetch
+     * @return {@link Contact} The contact requested
+     * @see ArrayList#get(int)
+     */
     private Contact getItem(final int position) {
         return items.get(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * Triggers a data reload and reacts to its execution.
+     */
     public void requestDataLoad() {
         ContactApiClient.getContactApiClient(mContext).getContacts(new Callback<List<Contact>>() {
+
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void success(final List<Contact> contacts, final Response response) {
-                //I am assuming that the endpoint doesn't correspond to all the contacts, but rather to new ones, and therefore I should implement the storage locally, since I can't post data. Because of this, how I consume the "API" is I download the data and, if there are any new contacts, I add them and refresh, but if there are not then I'm done.
+                /**
+                 * The way that I am assuming that the "endpoint" would work if it wasn't static
+                 * data is that it would provide new contacts only, so the only thing that I
+                 * with the data downloaded is insert that which is not already into the database
+                 */
                 //noinspection unchecked I don't want to pass them one by one as it is slower DB-wise
                 new AsyncTask<List<Contact>, Void, Collection<Contact>>() {
+
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     protected Collection<Contact> doInBackground(final List<Contact>... params) {
                         return ContactManager.insertIfProceeds(params[0]);
                     }
 
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     protected void onPostExecute(final Collection<Contact> newContacts) {
                         if (!newContacts.isEmpty()) {
@@ -148,6 +202,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                 }.executeOnExecutor(Executors.newSingleThreadExecutor(), contacts);
             }
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void failure(final RetrofitError error) {
                 Log.e(error.getUrl(), error.getMessage());
@@ -157,17 +214,29 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         });
     }
 
+    /**
+     * Updates the sorting mode and requests the contacts to be sorted.
+     *
+     * @param newSortMode {@link com.screeninteractiontest.android.ui.adapter
+     *                    .ContactRecyclerAdapter.SORT_MODE} The new sort mode
+     */
     public void setSortMode(final SORT_MODE newSortMode) {
         this.mSortMode = newSortMode;
         PreferenceAssistant.writeSharedInteger(mContext, PreferenceAssistant.PREF_SORT_MODE, mSortMode.ordinal());
         requestSort();
     }
 
+    /**
+     * Sorts the contacts using the current sorting mode.
+     */
     private void requestSort() {
         Comparator<Contact> comparator;
         switch (mSortMode) {
             case SORT_MODE_FIRST_NAME_ASCENDING:
                 comparator = new Comparator<Contact>() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
                         Integer ret;
@@ -183,6 +252,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                 break;
             case SORT_MODE_FIRST_NAME_DESCENDING:
                 comparator = new Comparator<Contact>() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
                         Integer ret;
@@ -198,6 +270,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                 break;
             case SORT_MODE_LAST_NAME_ASCENDING:
                 comparator = new Comparator<Contact>() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
                         Integer ret;
@@ -213,6 +288,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                 break;
             case SORT_MODE_LAST_NAME_DESCENDING:
                 comparator = new Comparator<Contact>() {
+                    /**
+                     * {@inheritDoc}
+                     */
                     @Override
                     public int compare(@NonNull final Contact lhs, @NonNull final Contact rhs) {
                         Integer ret;
@@ -233,13 +311,26 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         notifyDataSetChanged();
     }
 
+    /**
+     * Interface to allow surveillance of data load events.
+     */
     public interface IListObserver {
 
+        /**
+         * Called when a data reload is completed successfully.
+         */
         void onDataReloadCompleted();
 
+        /**
+         * Called when a data reload is not completed successfully.
+         */
         void onDataReloadErrored();
     }
 
+    /**
+     * <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling
+     * .html#ViewHolder">Hold View Objects in a View Holder</a>
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.thumbnail)
         ImageView photoView;
@@ -256,11 +347,20 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         @InjectView(R.id.ripple_wrapper)
         ListenableRippleView mRippleWrapper;
 
+        /**
+         * Default constructor.
+         *
+         * @param itemView             {@link View} The item view
+         * @param contactClickListener {@link com.screeninteractiontest.android.ui.adapter.ContactRecyclerAdapter.IContactClickListener} The listener that should be notified if this item is clicked.
+         */
         private ViewHolder(final View itemView, final IContactClickListener contactClickListener) {
             super(itemView);
             ButterKnife.inject(this, itemView);
 
             mRippleWrapper.setOnRippleCompleteListener(new ListenableRippleView.IRippleComplete() {
+                /**
+                 * {@inheritDoc}
+                 */
                 @Override
                 public void onComplete(final ListenableRippleView rippleView) {
                     if (contactClickListener != null)
@@ -270,6 +370,9 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
         }
     }
 
+    /**
+     * Interface to allow reaction to click-type events on adapter items.
+     */
     public interface IContactClickListener {
         void onContactClick(final Contact contact);
     }

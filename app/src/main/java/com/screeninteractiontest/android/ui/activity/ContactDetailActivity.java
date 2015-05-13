@@ -90,6 +90,7 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     }
 
     @OnClick(R.id.picture)
+    @SuppressWarnings("unused") //Butter Knife uses it
     public void iAmAStar(final View view) {
         if (mContact.isFavorite())
             tweetEgg();
@@ -169,9 +170,9 @@ public final class ContactDetailActivity extends IcedAppCompatActivity {
     }
 
     /**
-     * Shows the dialer with the phone number ready. It is a better approach
-     * than commencing the call straightaway ({@link Intent#ACTION_CALL} can
-     * be used instead if this is a must).
+     * Shows the dialer with the phone number ready. In most cases it is a better approach than
+     * commencing the call straightaway ({@link Intent#ACTION_CALL} cans be used instead with the
+     * CALL_PHONE permission if this is a must).
      */
     private void launchCallPhone() {
         final Intent intent = new Intent(Intent.ACTION_DIAL);
