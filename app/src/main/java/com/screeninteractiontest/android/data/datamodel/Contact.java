@@ -16,6 +16,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * were to use ProGuard we would need to define appropriate rules for this file.
  * This class implements {@link Parcelable} to allow objects of this type to be passed to
  * {@link com.screeninteractiontest.android.ui.activity.ContactDetailActivity}.
+ *
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker) upon code generated through
+ *         <a href="http://www.jsonschema2pojo.org/">jsonschema2pojo</a>.
  */
 public final class Contact implements Parcelable {
 
