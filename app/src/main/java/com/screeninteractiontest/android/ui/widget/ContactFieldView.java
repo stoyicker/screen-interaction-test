@@ -77,7 +77,7 @@ public final class ContactFieldView extends LinearLayout {
 
         mFieldValueRippleView.setOnRippleCompleteListener(new ListenableRippleView.IRippleComplete() {
             @Override
-            public void onComplete(final ListenableRippleView rippleView) {
+            public void onRippleComplete(final ListenableRippleView rippleView) {
                 ContactFieldView.this.onRippleEnd(ContactFieldView.this);
             }
         });

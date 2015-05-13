@@ -40,7 +40,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.screeninteractiontest.android.R;
@@ -87,11 +86,23 @@ public final class ListenableRippleView extends RelativeLayout {
 
     private IRippleComplete onCompletionListener;
 
+    /**
+     * Standard constructor.
+     *
+     * @param context {@link Context} Context
+     * @param attrs   {@link AttributeSet} Attributes specified through XML
+     */
     public ListenableRippleView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
+    /**
+     * Initializes the instance fields with the values read on the XML.
+     *
+     * @param context {@link Context} Context
+     * @param attrs   {@link AttributeSet} Attributes specified through XML
+     */
     private void init(final Context context, final AttributeSet attrs) {
         if (isInEditMode())
             return;
@@ -117,18 +128,27 @@ public final class ListenableRippleView extends RelativeLayout {
         this.setWillNotDraw(Boolean.FALSE);
 
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void onLongPress(MotionEvent event) {
                 super.onLongPress(event);
                 animateRipple(event);
-                sendClickEvent(Boolean.TRUE);
             }
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 return Boolean.TRUE;
             }
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 return Boolean.TRUE;
@@ -139,7 +159,9 @@ public final class ListenableRippleView extends RelativeLayout {
         this.setClickable(Boolean.TRUE);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
@@ -152,7 +174,7 @@ public final class ListenableRippleView extends RelativeLayout {
                 canvas.restore();
                 invalidate();
                 if (onCompletionListener != null)
-                    onCompletionListener.onComplete(this);
+                    onCompletionListener.onRippleComplete(this);
                 return;
             } else
                 canvasHandler.postDelayed(runnable, FRAME_RATE);
@@ -189,6 +211,9 @@ public final class ListenableRippleView extends RelativeLayout {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -201,10 +226,22 @@ public final class ListenableRippleView extends RelativeLayout {
         scaleAnimation.setRepeatCount(1);
     }
 
-    public void animateRipple(final MotionEvent event) {
+    /**
+     * Wrapper to start the ripple animation after a motion event
+     *
+     * @param event {@link MotionEvent} The event that triggers the animation
+     * @see ListenableRippleView#createAnimation(Float, Float)
+     */
+    private void animateRipple(final MotionEvent event) {
         createAnimation(event.getX(), event.getY());
     }
 
+    /**
+     * Creates the ripple animation
+     *
+     * @param x {@link Float} The X coordinate of the center of the animation, if not centered on the view
+     * @param y @link Float} The Y coordinate of the center of the animation, if not centered on the view
+     */
     private void createAnimation(final Float x, final Float y) {
         if (!animationRunning) {
             if (hasToZoom)
@@ -234,36 +271,29 @@ public final class ListenableRippleView extends RelativeLayout {
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onTouchEvent(@NonNull final MotionEvent event) {
         if (gestureDetector.onTouchEvent(event)) {
             animateRipple(event);
-            sendClickEvent(Boolean.FALSE);
         }
         return super.onTouchEvent(event);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onInterceptTouchEvent(final MotionEvent event) {
         this.onTouchEvent(event);
         return super.onInterceptTouchEvent(event);
     }
 
-    private void sendClickEvent(final Boolean isLongClick) {
-        if (getParent() instanceof ListView) {
-            final Integer position = ((ListView) getParent()).getPositionForView(this);
-            final Long id = ((ListView) getParent()).getItemIdAtPosition(position);
-            if (isLongClick) {
-                if (((ListView) getParent()).getOnItemLongClickListener() != null)
-                    ((ListView) getParent()).getOnItemLongClickListener().onItemLongClick(((ListView) getParent()), this, position, id);
-            } else {
-                if (((ListView) getParent()).getOnItemClickListener() != null)
-                    ((ListView) getParent()).getOnItemClickListener().onItemClick(((ListView) getParent()), this, position, id);
-            }
-        }
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     private Bitmap getCircleBitmap(final Integer radius) {
         final Bitmap output = Bitmap.createBitmap(originBitmap.getWidth(), originBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
@@ -280,14 +310,26 @@ public final class ListenableRippleView extends RelativeLayout {
         return output;
     }
 
+    /**
+     * Sets the listener for ripple completion events
+     *
+     * @param listener {@link com.screeninteractiontest.android.ui.widget.ListenableRippleView
+     *                 .IRippleComplete} The listener
+     */
     public void setOnRippleCompleteListener(final IRippleComplete listener) {
         this.onCompletionListener = listener;
     }
 
-
-
+    /**
+     * Defines the protocol for listening to ripple completion events
+     */
     public interface IRippleComplete {
 
-        void onComplete(final ListenableRippleView rippleView);
+        /**
+         * Notifies the completion of a ripple animation
+         *
+         * @param rippleView {@link ListenableRippleView} The view on which the ripple has completed
+         */
+        void onRippleComplete(final ListenableRippleView rippleView);
     }
 }

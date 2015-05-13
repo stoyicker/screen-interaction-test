@@ -362,7 +362,7 @@ public final class ContactRecyclerAdapter extends RecyclerView.Adapter<ContactRe
                  * {@inheritDoc}
                  */
                 @Override
-                public void onComplete(final ListenableRippleView rippleView) {
+                public void onRippleComplete(final ListenableRippleView rippleView) {
                     if (contactClickListener != null)
                         contactClickListener.onContactClick(items.get(getAdapterPosition()));
                 }
