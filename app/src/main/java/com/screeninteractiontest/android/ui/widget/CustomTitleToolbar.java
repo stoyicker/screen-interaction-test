@@ -8,29 +8,35 @@ import android.widget.TextView;
 import com.screeninteractiontest.android.R;
 
 /**
+ * Custom toolbar that allows its title to be configured in detail.
+ *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public final class CustomTitleToolbar extends Toolbar {
 
     private TextView mTitleView;
 
-    public CustomTitleToolbar(Context context) {
-        super(context);
-    }
-
+    /**
+     * Standard constructor.
+     *
+     * @param context {@link Context} Context
+     * @param attrs   {@link AttributeSet} Attributes specified through XML
+     */
     public CustomTitleToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CustomTitleToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setTitle(final int resId) {
         setTitle(getContext().getString(resId));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setTitle(final CharSequence title) {
         if (mTitleView == null)

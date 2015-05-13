@@ -87,10 +87,6 @@ public final class ListenableRippleView extends RelativeLayout {
 
     private IRippleComplete onCompletionListener;
 
-    public ListenableRippleView(Context context) {
-        super(context);
-    }
-
     public ListenableRippleView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
