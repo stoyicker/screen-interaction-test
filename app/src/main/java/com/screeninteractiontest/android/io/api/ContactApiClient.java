@@ -26,7 +26,7 @@ public abstract class ContactApiClient {
     /**
      * Retrieves the singleton instance to handle requests to this API.
      *
-     * @param context {@link Context} Required by the constructor
+     * @param context {@link Context} Context
      * @return {@link com.screeninteractiontest.android.io.api.ContactApiClient.IContactApi} The
      * singleton to use to perform requests to this API
      * @see com.screeninteractiontest.android.io.api.ContactApiClient.IContactApi

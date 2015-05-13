@@ -62,6 +62,7 @@ public final class ContactManager {
      * <li><field>name</field> is not null, as it is the key of the object. A null name becomes an
      * empty one (<value>""</value>). Note, however, that the <value>"null"</value> string is
      * perfectly valid.</li>
+     * <br>
      * <li><field>isFavorite</field> is not null. A null <field>isFavorite</field> becomes
      * <value>Boolean.FALSE</value>.</li>
      * </ul>
