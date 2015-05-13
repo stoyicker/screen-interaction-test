@@ -230,11 +230,12 @@ public final class Contact implements Parcelable {
 
     /**
      * Indicates whether some other object is "equal to" this one. The criteria used is the
-     * contact name. See {@link Contact#hashCode()} for more information.
+     * contact name.
      *
      * @param other {@link Object} The object to compare to
      * @return {@link Boolean} <value>Boolean.TRUE</value> if the objects are equal based on
      * their class and name; <value>Boolean.FALSE</value> otherwise
+     * @see Contact#hashCode()
      */
     @Override
     public boolean equals(final Object other) {
