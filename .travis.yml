@@ -13,7 +13,6 @@ branches:
   only:
     - master
 before_install:
-# Twitter data stub ##END#
 # Mark Gradle as executable ##START##
     - chmod +x ./gradlew
 # Mark Gradle as executable ##END##
