@@ -74,7 +74,7 @@ public abstract class ContactManager {
     }
 
     /**
-     * Sets a contact as favorite if it wan't, and as non-favorite otherwise.
+     * Sets a contact as favorite if it wasn't, and as non-favorite otherwise.
      *
      * @param contact  {@link Contact} The contact affected by the operation
      * @param callback {@link Runnable} The sequence of execution to run when the update has

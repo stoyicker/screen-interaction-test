@@ -16,7 +16,7 @@
             android:name="com.screeninteractiontest.android.ui.activity.SplashActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="locked"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Translucent.NullBackground">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

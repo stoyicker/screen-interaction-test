@@ -12,4 +12,8 @@
     <issue id="IconColors">
         <ignore regexp="ic_action_star_enabled.png"/>
     </issue>
+    <!-- Mistaken -->
+    <issue id="Overdraw">
+        <ignore path="src/main/res/layout/activity_splash.xml"/>
+    </issue>
 </lint>
