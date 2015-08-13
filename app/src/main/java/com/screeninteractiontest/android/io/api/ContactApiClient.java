@@ -21,7 +21,7 @@ import retrofit.http.GET;
 public abstract class ContactApiClient {
 
     private static final Object LOCK = new Object();
-    private static IContactApi apiService;
+    private static volatile IContactApi apiService;
 
     /**
      * Retrieves the singleton instance to handle requests to this API.
